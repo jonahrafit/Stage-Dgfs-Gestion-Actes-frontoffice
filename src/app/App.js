@@ -15,7 +15,7 @@ class App extends Component {
     let footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
     return (
       <div>
-        { headerComponent }
+        {  headerComponent }
         <div className="az-content-wrapper">
           <AppRoutes/>
         </div>

@@ -59,20 +59,21 @@ export class Header extends Component {
                   }
                 >
                   <Link to="/dashboard" className="nav-link">
-                    <i className="typcn typcn-chart-area-outline"></i> Dashboard
+                    <i className="typcn typcn-chart-area-outline"></i> Acceuil
                   </Link>
                 </li>
                 <li
                   className={
-                    this.isPathActive("/patient/fiche-form")
+                    this.isPathActive("/patient")
                       ? "nav-item active"
                       : "nav-item"
                   }
                 >
-                  <Link to="/patient/fiche-form" className="nav-link">
-                    Formulaire patient
+                  <Link to="/patient" className="nav-link">
+                    <span className="medical-icon-health-services" aria-hidden="true"> </span>  Gestion des patients
                   </Link>
                 </li>
+
                 <li className="nav-item">
                   <Dropdown
                     className={
@@ -112,9 +113,9 @@ export class Header extends Component {
                   <Dropdown
                     className={
                       this.isPathActive("/ui-elements") ||
-                      this.isPathActive("/form") ||
-                      this.isPathActive("/charts") ||
-                      this.isPathActive("/tables")
+                        this.isPathActive("/form") ||
+                        this.isPathActive("/charts") ||
+                        this.isPathActive("/tables")
                         ? "nav-item active"
                         : "nav-item"
                     }
@@ -211,7 +212,7 @@ export class Header extends Component {
               </ul>
             </div>
             <div className="az-header-right">
-            <a href="https://www.bootstrapdash.com/demo/azia-react-free/documentation/documentation.html" className="az-header-search-link">
+              <a href="https://www.bootstrapdash.com/demo/azia-react-free/documentation/documentation.html" className="az-header-search-link">
                 <i className="fas fa-file-alt"></i>
               </a>
               <a href="#/" className="az-header-search-link">

@@ -59,7 +59,7 @@ export class FormElements extends Component {
             </div>{/* row */}
             <div className="row row-sm mg-t-20">
               <div className="col-lg">
-                <Form.Control as="textarea" rows="3" placeholder="Textarea" />
+                <Form.Control as="textarea" rows="3" placeholder="Textarea"/>
               </div>{/* col */}
               <div className="col-lg mg-t-10 mg-lg-t-0">
                 <Form.Control as="textarea" rows="3" placeholder="Textarea (readonly)" readOnly/>
