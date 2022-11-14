@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import ComponentsSidebar from '../../components/shared/ComponentsSidebar';
 import { Link } from 'react-router-dom';
-import { personne_url_api, etablissement_service_url_api } from '../../service/api';
+import { etablissement_service_url_api, personne_patient_url_api, session_id_etab ,etablissement_patient_url_api } from '../../service/api';
 import { Form, Modal } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import moment from 'moment';
@@ -10,7 +10,6 @@ import moment from 'moment';
 class ListePatient extends Component {
     constructor(props) {
         super(props);
-        moment.locale('de');
         this.state = {
             Persons: [],
             Services: [],
@@ -55,7 +54,6 @@ class ListePatient extends Component {
 
     handleSubmit_patient_formulary(event) {
         event.preventDefault();
-        // alert(this.state.patient_dossier.insert_motif);
         Swal.fire({
             title: 'Verifier ?',
             text: this.state.personne.insert_nom + '/' + this.state.personne.insert_prenom + '/' + this.state.personne.insert_genre,
@@ -67,7 +65,7 @@ class ListePatient extends Component {
             cancelButtonText: 'Non',
             closeOnConfirm: true
         }).then(() => {
-            fetch(personne_url_api, {
+            fetch(personne_patient_url_api, {
                 method: 'POST',
                 body: JSON.stringify({
                     nom: this.state.personne.insert_nom,
@@ -77,9 +75,10 @@ class ListePatient extends Component {
                     dateNaissance: this.state.personne.insert_datenaissance,
                     contact: this.state.patient_dossier.insert_contact,
                     adresse: this.state.patient_dossier.insert_adresse,
-                    id_etablissement: 1,
+                    idEtablissement: session_id_etab,
                     motif: this.state.patient_dossier.insert_motif,
                     numerodossier: this.state.patient_dossier.insert_numerodossier,
+                    dateAdmission: new Date().toISOString().slice(0, 10),
                 }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -106,7 +105,7 @@ class ListePatient extends Component {
     }
 
     componentDidMount() {
-        fetch(personne_url_api)
+        fetch(etablissement_patient_url_api+session_id_etab)
             .then((res) => res.json())
             .then(result => {
                 console.log(result);
