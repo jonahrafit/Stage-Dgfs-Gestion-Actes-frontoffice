@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import ComponentsSidebar from '../../components/shared/ComponentsSidebar';
 import { Link } from 'react-router-dom';
-import { etablissement_service_url_api, personne_patient_url_api, session_id_etab ,etablissement_patient_url_api } from '../../service/api';
+import { etablissement_patient_url_api, etablissement_service_url_api, personne_patient_url_api, session_id_etab } from '../../service/api';
 import { Form, Modal } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import moment from 'moment';
@@ -27,17 +27,18 @@ class ListePatient extends Component {
                 insert_numerodossier: '',
                 insert_contact: '',
                 insert_adresse: '',
-                insert_id_personne: ''
+                insert_id_personne: '',
+                insert_date_admission: ''
             },
         };
         this.headers = [
-            { key: 'id', label: 'Id' },
             { key: 'nom', label: 'Nom' },
             { key: 'prenom', label: 'Prenom' },
             { key: 'genre', label: 'Genre' },
             { key: 'adresse', label: 'Adresse' },
             { key: 'date_naissance', label: 'Date de naissance' },
-            { key: 'motif', label: 'Motif' }
+            { key: 'motif', label: 'Motif d\'entrée' },
+            { key: 'date_admission', label: 'Date d\'entrée' }
         ];
         this.handleChange_patient_formulary = this.handleChange_patient_formulary.bind(this);
         this.handleSubmit_patient_formulary = this.handleSubmit_patient_formulary.bind(this);
@@ -72,13 +73,13 @@ class ListePatient extends Component {
                     prenom: this.state.personne.insert_prenom,
                     genre: this.state.personne.insert_genre,
                     cin: this.state.personne.insert_cin,
-                    dateNaissance: this.state.personne.insert_datenaissance,
+                    date_naissance: this.state.personne.insert_datenaissance,
                     contact: this.state.patient_dossier.insert_contact,
                     adresse: this.state.patient_dossier.insert_adresse,
-                    idEtablissement: session_id_etab,
+                    id_etablissement: session_id_etab,
                     motif: this.state.patient_dossier.insert_motif,
-                    numerodossier: this.state.patient_dossier.insert_numerodossier,
-                    dateAdmission: new Date().toISOString().slice(0, 10),
+                    numero_dossier: this.state.patient_dossier.insert_numerodossier,
+                    date_admission: new Date().toISOString().slice(0, 10),
                 }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
@@ -105,7 +106,7 @@ class ListePatient extends Component {
     }
 
     componentDidMount() {
-        fetch(etablissement_patient_url_api+session_id_etab)
+        fetch(etablissement_patient_url_api)
             .then((res) => res.json())
             .then(result => {
                 console.log(result);
@@ -154,7 +155,7 @@ class ListePatient extends Component {
                                                 )
                                             })
                                         }
-                                        <th>Age</th>
+                                        <th>Age  </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -162,13 +163,17 @@ class ListePatient extends Component {
                                         this.state.Persons.map(function (item, key) {
                                             return (
                                                 <tr key={key}>
-                                                    <td><Link to="/patient/CHUMET-TEC-15689">{item.id}</Link></td>
-                                                    <td>{item.nom}</td>
+                                                    <td>
+                                                        <Link to={"/patient/"+item.id}>
+                                                            {item.nom}
+                                                        </Link>
+                                                    </td>
                                                     <td>{item.prenom}</td>
                                                     <td>{item.genre}</td>
                                                     <td>{item.adresse}</td>
                                                     <td>{moment(item.dateNaissance).format("L")}</td>
-                                                    <td>{item.contact}</td>
+                                                    <td>{item.motif}</td>
+                                                    <td>{moment(item.dateAdmission).format("L")}</td>
                                                     <td>{moment(item.dateNaissance).fromNow()}</td>
                                                 </tr>
                                             )
@@ -253,7 +258,7 @@ class ListePatient extends Component {
                         </Modal.Footer>
                     </form>
                 </Modal>
-            </div>
+            </div >
         );
         // }
         // else {
