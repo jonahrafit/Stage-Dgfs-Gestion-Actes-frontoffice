@@ -2,9 +2,10 @@ import React from 'react';
 import MenuFichePatient from './MenuFichePatient';
 import { Link } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
-import { patient_url_api } from '../../service/api';
+import { patient_url_api, etablissement_parametre_url_api, date_now } from '../../service/apiService';
 import { Component } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
+
 
 class FichePatient extends Component {
     constructor(props) {
@@ -14,25 +15,9 @@ class FichePatient extends Component {
             id: props.match.params.id,
             show_parameter_formulary: false,
             patient: [],
-            // {
-            //     adresse: "",
-            //     cin: "",
-            //     contact: "",
-            //     date_admission: "",
-            //     date_naissance: "",
-            //     genre: "",
-            //     groupe_sanguin: "",
-            //     id: null,
-            //     id_etablissement: "",
-            //     id_patient_dossier: "",
-            //     id_personne: "",
-            //     id_type_transport: null,
-            //     motif: "",
-            //     nom: "",
-            //     numero_dossier: "",
-            //     prenom: "",
-            // },
+            parametres: [],
         }
+        this.handleSubmit_parameter_formulary = this.handleSubmit_parameter_formulary.bind(this);
     }
 
     data = {
@@ -60,6 +45,7 @@ class FichePatient extends Component {
     componentDidMount() {
         const id = this.props.match.params.id;
         this.getPatient(id);
+        this.getAllParametre();
     }
 
     getPatient(id) {
@@ -71,8 +57,36 @@ class FichePatient extends Component {
                     patient: response
                 });
                 console.log(response);
-                console.log(this.state.patient.id);
             })
+    }
+
+    getAllParametre() {
+        fetch(etablissement_parametre_url_api)
+            .then((res) => res.json())
+            .then(response => {
+                this.setState({
+                    parametres: response
+                });
+                console.log(response);
+            })
+    }
+
+    handleSubmit_parameter_formulary(e) {
+        e.preventDefault();
+        var insert_parametre = [];
+        // test sod tsy tao anaty formulaire le parametre
+        // izay misy de ajoutena ao am insetr_parametre
+        // ajouter avec boucle fotsiny
+        this.state.parametres.forEach(param => {
+            const object = {
+                id_patient_dossier: this.state.patient.id_patient_dossier,
+                date_parametre: date_now,
+                valeur: e.target['insert_' + param.nomParametre].value,
+                id_parametre: param.id
+            };
+            insert_parametre.push(object);
+        });
+        console.log(insert_parametre);
     }
 
     render() {
@@ -83,7 +97,7 @@ class FichePatient extends Component {
                     <MenuFichePatient />
                     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
                         <div className="az-content-breadcrumb">
-                            <span>Patient </span>
+                            <span><Link to="/patient">Patient </Link> </span>
                             <span>{p.numero_dossier}</span>
                         </div>
                         <div className="row row-sm">
@@ -147,9 +161,8 @@ class FichePatient extends Component {
                 </div>
 
                 {/* MODAL FORMULAIRE PARAMETRE MEDICALE */}
-
                 <Modal show={this.state.show_parameter_formulary} onHide={() => this.setState({ show_parameter_formulary: false })}>
-                    <form onSubmit={this.handleSubmit_patient_formulary}>
+                    <form onSubmit={this.handleSubmit_parameter_formulary}>
                         <Modal.Header closeButton>
                             <Modal.Title>
                                 <h2><span className="medical-icon-anesthesia" aria-hidden="true"></span> Des parametre vitaux </h2>
@@ -157,40 +170,18 @@ class FichePatient extends Component {
                         </Modal.Header>
                         <Modal.Body>
                             <div className="row row-sm">
-                                <hr className="mg-y-5" />
-                                <div className="col-lg">
-                                    <p className="mg-b-10">Température(°)</p>
-                                    <Form.Control type="number" name="temperatrue"
-                                        placeholder='Enter la temperature'
-                                        value={this.state.temperature} onChange={this.handleChange} />
-                                </div>{/* col */}
-                                <div className="col-lg">
-                                    <p className="mg-b-10">Tension Artérielle(cmHg)</p>
-                                    <Form.Control type="number" name="tension_arterielle" placeholder="Entrer la tension artérielle" value={this.state.tension_arterielle} onChange={this.handleChange} />
-                                </div>{/* col */}
-                                <div className="col-lg">
-                                    <p className="mg-b-10">Frequence respiratoire(/min)</p>
-                                    <Form.Control type="number" name="freq_resp" placeholder="Entrer la frequence respiratoire par minute" value={this.state.freq_resp} onChange={this.handleChange} />
-                                </div>{/* col */}
-                            </div>{/* row */}
-
-                            <hr className="mg-y-5" />
-                            <div className="row row-sm">
-                                <div className="col-lg">
-                                    <p className="mg-b-10">Glycémie</p>
-                                    <Form.Control type="number" name="glycemie" placeholder="Entrer le taux de glycémie" value={this.state.glycemie} onChange={this.handleChange} />
-                                </div>{/* col */}
-                                <div className="col-lg">
-                                    <p className="mg-b-10">Frequence cardique(/min)</p>
-                                    <Form.Control type="number" name="freq_cardk" placeholder="Entrer la frequence cardique par minute" value={this.state.freq_cardk} onChange={this.handleChange} />
-                                </div>{/* col */}
-                                <div className="col-lg">
-                                    <p className="mg-b-10">PeakFlow</p>
-                                    <Form.Control type="number" name="peakflow"
-                                        placeholder='Enter la peakflow'
-                                        value={this.state.peakflow} onChange={this.handleChange} />
-                                </div>{/* col */}
-                            </div>{/* row */}
+                                {
+                                    this.state.parametres.map(param => (
+                                        <div key={param.id}>
+                                            <div className="col-lg">
+                                                <p className="mg-b-10">{param.nomParametre}</p>
+                                                <Form.Control type="number" name={'insert_' + param.nomParametre}
+                                                    placeholder={'Enter ' + param.nomParametre} min={param.minValue} max={param.maxValue} />
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </div>
                         </Modal.Body>
                         <Modal.Footer>
                             <Button variant="secondary" onClick={() => this.setState({ show_parameter_formulary: false })}>Annuler</Button>
@@ -198,7 +189,6 @@ class FichePatient extends Component {
                         </Modal.Footer>
                     </form>
                 </Modal>
-
             </div >
         );
     }

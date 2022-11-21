@@ -3,14 +3,13 @@ import { Button } from 'react-bootstrap';
 
 import ComponentsSidebar from '../../components/shared/ComponentsSidebar';
 import { Link } from 'react-router-dom';
-import { etablissement_patient_url_api, etablissement_service_url_api, personne_patient_url_api, session_id_etab } from '../../service/api';
+import { etablissement_patient_url_api, etablissement_service_url_api, personne_patient_url_api, session_id_etab, date_now } from '../../service/apiService';
 import { Form, Modal } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 
 class ListePatient extends Component {
     constructor(props) {
-        alert(Date.now().toLocaleTimeString());
         super(props);
         this.state = {
             Persons: [],
@@ -25,12 +24,13 @@ class ListePatient extends Component {
             },
             patient_dossier: {
                 insert_id_etablissment: '',
-                insert_motif: 1,
+                insert_motif: 'Urgence',
                 insert_numerodossier: '',
                 insert_contact: '',
                 insert_adresse: '',
                 insert_id_personne: '',
-                insert_date_admission: ''
+                insert_date_admission: date_now
+                // insert_date_admission: new Date().setHours(new Date().toISOString().getHours + 3).toISOString().slice(0, 16)
             },
         };
         this.headers = [
@@ -81,14 +81,15 @@ class ListePatient extends Component {
                     id_etablissement: session_id_etab,
                     motif: this.state.patient_dossier.insert_motif,
                     numero_dossier: this.state.patient_dossier.insert_numerodossier,
-                    date_admission: new Date().toISOString().slice(0, 10),
+                    date_admission: this.state.patient_dossier.insert_date_admission,
+                    // date_admission: new Date().toISOString().slice(0, 10),
                 }),
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
             }).then(response => {
                 Swal.fire({
-                    icon: 'success',
+                    type: 'success',
                     toast: true,
                     title: 'Insertion de nouveau patient reussi!',
                     animation: true,
@@ -138,7 +139,6 @@ class ListePatient extends Component {
 
                         <div className="az-content-breadcrumb">
                             <span>Patients</span>
-                            <span>Liste</span>
                         </div>
                         <h2 className="az-content-title">Listes des patients Globales</h2>
                         <div className="row row-xs wd-xl-80p">
@@ -178,7 +178,7 @@ class ListePatient extends Component {
                                                     <td>{item.motif}</td>
                                                     {/* <td>{moment(item.dateAdmission).format("L")}</td> */}
                                                     <td>{item.date_admission}</td>
-                                                    <td>{moment(item.date_naissance).fromNow()}</td>
+                                                    <td>{moment(item.date_naissance).from(item.date_admission)}</td>
                                                 </tr>
                                             )
                                         })
@@ -223,12 +223,13 @@ class ListePatient extends Component {
                                 </div>{/* col */}
                             </div>{/* row */}
                             <hr />
-                            <div className="row row-sm">
+                            <div div className="row row-sm">
                                 <div className="col-lg">
                                     <p className="mg-b-10">Numero CIN</p>
                                     <Form.Control type="string" name="insert_cin" placeholder="Entrer Carte d'Identité Nationale" value={this.state.personne.insert_cin} onChange={this.handleChange_patient_formulary} />
-                                </div>{/* col */}
-                            </div>{/* row */}
+                                </div>
+                            </div>
+
                             <hr />
                             <div className="row row-sm">
                                 <div className="col-lg">
@@ -248,15 +249,20 @@ class ListePatient extends Component {
                                         {
                                             this.state.Services.map(function (service) {
                                                 return (
-                                                    <option key={service.id} value={service.id}>{service.code + '-' + service.nomService}</option>
+                                                    <option key={service.id} value={service.nomService}>{service.code + '-' + service.nomService}</option>
                                                 )
                                             })
                                         }
                                     </select>
                                 </div>
+                                <div className="col-lg">
+                                    <p className="mg-b-10">Date d'admission</p>
+                                    <Form.Control type="datetime-local" name="insert_date_admission" value={this.state.patient_dossier.insert_date_admission} onChange={this.handleChange_patient_formulary} required />
+                                </div>{/* col */}
                             </div>{/* row */}
                         </Modal.Body>
                         <Modal.Footer>
+                            <Button variant="danger" >Reset</Button>
                             <Button variant="secondary" onClick={() => this.setState({ show_patient_formulary: false })}>Annuler</Button>
                             <Button type="submit" variant="primary">Inserer</Button>
                         </Modal.Footer>

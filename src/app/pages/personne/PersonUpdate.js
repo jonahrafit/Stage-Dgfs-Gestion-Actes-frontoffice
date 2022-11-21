@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { url_api } from '../../service/api';
+import { url_api } from '../../service/apiService';
 
 class PersonUpdate extends React.Component {
 

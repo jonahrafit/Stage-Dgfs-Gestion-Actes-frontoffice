@@ -33,26 +33,22 @@ class FichePrescription extends Component {
                             <Table className="mg-b-0">
                                 <thead>
                                     <tr>
-                                        <th>Presciption</th>
-                                        <th>Posologie</th>
-                                        <th>Voie d'administration</th>
+                                        <th>Presciption / Posologie / Voie d'administration</th>
+                                        <th>22 Sept</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <th scope="row">Doliprane 40mg</th>
-                                        <td>IVDL</td>
-                                        <td>Orale</td>
+                                        <th scope="row">Doliprane 40mg / IVDL / Orale</th>
+                                        <td><i class="fa fa-circle" aria-hidden="true"></i></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row"><span className='bg-red'>Cetriaxone 50mg</span></th>
-                                        <td>IVDL</td>
-                                        <td>Orale</td>
+                                        <th scope="row"><span style={{ color: 'red' }}>Cetriaxone 50mg</span> / IVDL / Orale</th>
+                                        <td><i class="fa5p fa5p-triangle" aria-hidden="true"></i></td>
                                     </tr>
                                     <tr>
-                                        <th scope="row"><span className='bg-green'>DEXAMETA</span> </th>
-                                        <td>IVDL</td>
-                                        <td>Orale</td>
+                                        <th scope="row"><span style={{ color: 'green' }}>DEXAMETA</span> / IVDL / Orale</th>
+                                        <td><span className="medical-icon-anesthesia" aria-hidden="true"></span></td>
                                     </tr>
                                 </tbody>
                             </Table>
