@@ -70,7 +70,18 @@ export class Header extends Component {
                   }
                 >
                   <Link to="/patient" className="nav-link">
-                    <span className="medical-icon-health-services" aria-hidden="true"> </span>  Gestion des patients
+                    <span className="medical-icon-health-services" aria-hidden="true">  </span>  Gestion des patients
+                  </Link>
+                </li> 
+                <li
+                  className={
+                    this.isPathActive("/etablissement")
+                      ? "nav-item active"
+                      : "nav-item"
+                  }
+                >
+                  <Link to="/etablissement" className="nav-link">
+                    <span className="medical-icon-medical-records" aria-hidden="true"> </span>  Gestion des Etablissements
                   </Link>
                 </li>
 

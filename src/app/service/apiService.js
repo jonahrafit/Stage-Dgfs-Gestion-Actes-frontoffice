@@ -14,4 +14,4 @@ export const patient_parametre_url_api = url_api + 'patient/parametre/';
 
 export const session_id_etab = 1;
 
-export const date_now = moment().add(3, 'hours').toISOString().slice(0, 16);
+export const date_now = moment().toISOString().slice(0, 16);

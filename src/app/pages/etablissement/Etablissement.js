@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-
+import ComponentsSidebar from '../../components/shared/ComponentsSidebar';
 class Etablissement extends Component {
     render() {
         return (
             <div>
-                <h2>Gestion d'etablissement</h2>
+                <div className="container d-flex p-md-0">
+                    <ComponentsSidebar />
+                    <h2>Gestion d'etablissement</h2>
+                </div>
             </div>
         );
     }

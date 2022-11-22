@@ -2,10 +2,10 @@ import React from 'react';
 import MenuFichePatient from './MenuFichePatient';
 import { Link } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
-import { patient_url_api, etablissement_parametre_url_api, date_now } from '../../service/apiService';
+import { patient_url_api, etablissement_parametre_url_api, date_now, patient_parametre_url_api } from '../../service/apiService';
 import { Component } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
-
+import Swal from 'sweetalert2';
 
 class FichePatient extends Component {
     constructor(props) {
@@ -16,36 +16,44 @@ class FichePatient extends Component {
             show_parameter_formulary: false,
             patient: [],
             parametres: [],
+            parameter_chart_data: { datasets: [], labels: [] }
         }
         this.handleSubmit_parameter_formulary = this.handleSubmit_parameter_formulary.bind(this);
     }
-
-    data = {
-        labels: ["12 Jan", "13 Jan", "14 Jan", "15 Jan", "16 Jan", "17 Jan"],
-        datasets: [
-            {
-                label: "FC",
-                // backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(255, 99, 132)",
-                data: [0, 10, 5, 2, 20, 30, 45],
-            }, {
-                label: "FR",
-                // backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(55, 99, 22)",
-                data: [40, 10, 19, null, 22, 13, 55],
-            }, {
-                label: "SpO2",
-                // backgroundColor: "rgb(255, 99, 132)",
-                borderColor: "rgb(12, 29, 52)",
-                data: [10, 30, 15, 22, 20, 5, 15],
-            },
-        ],
-    };
 
     componentDidMount() {
         const id = this.props.match.params.id;
         this.getPatient(id);
         this.getAllParametre();
+        this.getParameterChartData(id, 1);
+    }
+
+    getParameterChartData(id_patient_dossier, id_parametre) {
+        fetch(patient_parametre_url_api + id_patient_dossier + "/" + id_parametre)
+            .then((result) => result.json())
+            .then(res => {
+                const labels = [];
+                const data = [];
+                res.forEach(element => {
+                    labels.push(element.dateParametre);
+                    data.push(element.valeur);
+                });
+                let label = '';
+                if (labels.length > 0) { label = res[0].parametre.nomParametre }
+                console.log('LABEL=' + labels);
+                console.log(data);
+                this.setState({
+                    parameter_chart_data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: label,
+                                data: data,
+                                borderColor: ['rgb(0, 204, 212)']
+                            }]
+                    }
+                });
+            });
     }
 
     getPatient(id) {
@@ -57,6 +65,7 @@ class FichePatient extends Component {
                     patient: response
                 });
                 console.log(response);
+                return response;
             })
     }
 
@@ -73,20 +82,51 @@ class FichePatient extends Component {
 
     handleSubmit_parameter_formulary(e) {
         e.preventDefault();
-        var insert_parametre = [];
+        let insert_parametre = [];
         // test sod tsy tao anaty formulaire le parametre
         // izay misy de ajoutena ao am insetr_parametre
         // ajouter avec boucle fotsiny
         this.state.parametres.forEach(param => {
+            var nom_input = param.nomParametre.replace(" ", "_").toLowerCase();
             const object = {
                 id_patient_dossier: this.state.patient.id_patient_dossier,
-                date_parametre: date_now,
-                valeur: e.target['insert_' + param.nomParametre].value,
+                date_parametre: e.target['insert_date_parametre'].value,
+                valeur: e.target['insert_' + nom_input].value,
                 id_parametre: param.id
             };
             insert_parametre.push(object);
         });
         console.log(insert_parametre);
+        insert_parametre.forEach(i_p => {
+            fetch(patient_parametre_url_api, {
+                method: 'POST',
+                body: JSON.stringify({
+                    id_patient_dossier: i_p.id_patient_dossier,
+                    date_parametre: i_p.date_parametre,
+                    valeur: i_p.valeur,
+                    id_parametre: i_p.id_parametre
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }).then(response => {
+                Swal.fire({
+                    type: 'success',
+                    toast: true,
+                    title: 'Insertion de parametres reussi!',
+                    animation: true,
+                    position: 'top-right',
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                })
+            });
+        })
+        this.setState({ show_parameter_formulary: false })
     }
 
     render() {
@@ -152,7 +192,7 @@ class FichePatient extends Component {
                                         Tout paramètre vitaux qu'il faut tenir chaque jour
                                     </p>
                                     <div className="">
-                                        <Line data={this.data} />
+                                        <Line data={this.state.parameter_chart_data} />
                                     </div>{/* table-responsive */}
                                 </div>{/* card */}
                             </div>{/* col-lg */}
@@ -169,18 +209,22 @@ class FichePatient extends Component {
                             </Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
-                            <div className="row row-sm">
+                            <div className="row">
                                 {
                                     this.state.parametres.map(param => (
                                         <div key={param.id}>
-                                            <div className="col-lg">
+                                            <div className="col-12">
                                                 <p className="mg-b-10">{param.nomParametre}</p>
-                                                <Form.Control type="number" name={'insert_' + param.nomParametre}
+                                                <Form.Control type="number" name={'insert_' + param.nomParametre.replace(" ", "_").toLowerCase()}
                                                     placeholder={'Enter ' + param.nomParametre} min={param.minValue} max={param.maxValue} />
                                             </div>
                                         </div>
                                     ))
                                 }
+                                {/* <Link> + Ajouter nouveau parametre </Link> */}
+                                <div className="col-lg">
+                                    <Form.Control type="hidden" name="insert_date_parametre" value={date_now} />
+                                </div>{/* col */}
                             </div>
                         </Modal.Body>
                         <Modal.Footer>
@@ -193,4 +237,5 @@ class FichePatient extends Component {
         );
     }
 }
+
 export default FichePatient;

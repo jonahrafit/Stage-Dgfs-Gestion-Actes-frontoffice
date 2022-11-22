@@ -3,14 +3,34 @@ import MenuFichePatient from './MenuFichePatient';
 import { Modal, Table, Form } from 'react-bootstrap';
 import Select from 'react-select';
 import { Button } from 'react-bootstrap';
+import { date_now } from '../../service/apiService';
 
 class FichePrescription extends Component {
     constructor(props) {
         super();
         this.state = {
             show_prescription_formulary: false,
+            perscription: {
+                medicament: '',
+                datedebut: date_now,
+                voie_adminnistration: '',
+                posologie: '',
+                quantite: '',
+            }
         }
     }
+
+    handleChangePrescription(event) {
+        const prescription_state = this.state.perscription
+        prescription_state[event.target.name] = event.target.value
+        this.setState({ prescription : prescription_state});
+    }
+
+    handleSubmitPrescription(event){
+        event.preventDefault();
+        alert(this.state.prescription)
+    }
+
     render() {
         return (
             <div>
@@ -40,11 +60,11 @@ class FichePrescription extends Component {
                                 <tbody>
                                     <tr>
                                         <th scope="row">Doliprane 40mg / IVDL / Orale</th>
-                                        <td><i class="fa fa-circle" aria-hidden="true"></i></td>
+                                        <td><i className="fa fa-circle" aria-hidden="true"></i></td>
                                     </tr>
                                     <tr>
                                         <th scope="row"><span style={{ color: 'red' }}>Cetriaxone 50mg</span> / IVDL / Orale</th>
-                                        <td><i class="fa5p fa5p-triangle" aria-hidden="true"></i></td>
+                                        <td><i className="fa5p fa5p-triangle" aria-hidden="true"></i></td>
                                     </tr>
                                     <tr>
                                         <th scope="row"><span style={{ color: 'green' }}>DEXAMETA</span> / IVDL / Orale</th>
@@ -55,7 +75,6 @@ class FichePrescription extends Component {
                         </div>{/* table-responsive */}
                     </div>
                 </div>
-
 
                 {/* MODAL FORMULAIRE PRESCRIPTION MEDICALE */}
                 <Modal show={this.state.show_prescription_formulary} onHide={() => this.setState({ show_prescription_formulary: false })}>
@@ -68,7 +87,7 @@ class FichePrescription extends Component {
                         <Modal.Body>
                             <div className="row row-sm">
                                 <div className="col-lg">
-                                    <Form.Control type="text" placeholder="Id prescripteur : ID-54918DE" readOnly />
+                                    <Form.Control type="text" name="id_prescripteur" placeholder="Id prescripteur : ID-54918DE" value="1" readOnly />
                                 </div>{/* col */}
                             </div>{/* row */}
                             <hr />
@@ -76,7 +95,7 @@ class FichePrescription extends Component {
                                 <hr className="mg-y-5" />
                                 <div className="col-lg">
                                     <p className="mg-b-10">Medicament</p>
-                                    <Select
+                                    <Select name="medicament" value={this.state.medicament} onChange={this.handleChangePrescription}
                                         options={[
                                             { value: 'paracetamol', label: 'paracetamol' },
                                             { value: 'chrome', label: 'chrome' },
@@ -85,7 +104,7 @@ class FichePrescription extends Component {
                                 </div>{/* col */}
                                 <div className="col-lg">
                                     <p className="mg-b-10">Voie d'administration</p>
-                                    <Select
+                                    <Select value={this.state.voie_administration} onChange={this.handleChangePrescription} name="voie_administration"
                                         options={[
                                             { value: 'orale', label: 'orale' },
                                             { value: 'rectale', label: 'rectale' },
@@ -94,7 +113,7 @@ class FichePrescription extends Component {
                                 </div>{/* col */}
                                 <div className="col-lg">
                                     <p className="mg-b-10">Date début</p>
-                                    <Form.Control type="date" name="datedebut" value={this.state.datedebut} onChange={this.handleChange} />
+                                    <Form.Control type="date" name="datedebut" value={this.state.datedebut} onChange={this.handleChangePrescription} />
                                 </div>{/* col */}
                             </div>{/* row */}
 
@@ -102,7 +121,7 @@ class FichePrescription extends Component {
                             <div className="row row-sm">
                                 <div className="col-lg">
                                     <p className="mg-b-10">Posologie</p>
-                                    <Select
+                                    <Select value={this.state.posologie} onChange={this.handleChangePrescription} name="posologie"
                                         options={[
                                             { value: 'Matin-Midi-Soir', label: 'Matin-Midi-Soir' },
                                         ]}
@@ -110,7 +129,7 @@ class FichePrescription extends Component {
                                 </div>{/* col */}
                                 <div className="col-lg">
                                     <p className="mg-b-10">Quantite</p>
-                                    <Form.Control type="text" name="quantite" value={this.state.quantite} onChange={this.handleChange} />
+                                    <Form.Control type="text" name="quantite" value={this.state.quantite} onChange={this.handleChangePrescription} />
                                 </div>{/* col */}
                             </div>{/* row */}
                         </Modal.Body>

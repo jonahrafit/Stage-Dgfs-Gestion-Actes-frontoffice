@@ -20,14 +20,14 @@ class ListePatient extends Component {
                 insert_prenom: '',
                 insert_genre: 'M',
                 insert_datenaissance: '',
-                insert_cin: '',
+                insert_cin: '102 391 006 119',
             },
             patient_dossier: {
                 insert_id_etablissment: '',
                 insert_motif: 'Urgence',
                 insert_numerodossier: '',
-                insert_contact: '',
-                insert_adresse: '',
+                insert_contact: '034 642 056489',
+                insert_adresse: 's',
                 insert_id_personne: '',
                 insert_date_admission: date_now
                 // insert_date_admission: new Date().setHours(new Date().toISOString().getHours + 3).toISOString().slice(0, 16)
@@ -103,7 +103,6 @@ class ListePatient extends Component {
                     }
                 })
                 this.setState({ show_patient_formulary: false })
-                // window.location.href = '/patient';
             });
         });
     }

@@ -24,6 +24,9 @@ const listePatient = lazy(() => import('./pages/patient/ListePatient'))
 const FichePatient = lazy(() => import('./pages/patient/FichePatient'))
 const FichePrescription = lazy(() => import('./pages/patient/FichePrescription'))
 
+// ETABLISSEMENT
+const listeEtablissement = lazy(() => import('./pages/etablissement/Etablissement'))
+
 export class AppRoutes extends Component {
   render() {
     return (
@@ -51,6 +54,10 @@ export class AppRoutes extends Component {
           <Route exact path="/patient" component={listePatient} />
           <Route exact path="/patient/:id" component={FichePatient} />
           <Route exact path="/patient/:id/prescription" component={FichePrescription} />
+
+          {/* ETABLISSEMENT */}
+          <Route exact path="/etablissement" component={listeEtablissement} />
+
 
         </Switch>
       </Suspense>
