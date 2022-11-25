@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button , Form, Modal } from 'react-bootstrap';
 
 import ComponentsSidebar from '../../components/shared/ComponentsSidebar';
 import { Link } from 'react-router-dom';
 import { etablissement_patient_url_api, etablissement_service_url_api, personne_patient_url_api, session_id_etab, date_now } from '../../service/apiService';
-import { Form, Modal } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import moment from 'moment';
 
@@ -128,8 +127,6 @@ class ListePatient extends Component {
     }
 
     render() {
-        // if (this.state.Persons && Object.keys(this.state.Persons).length > 0) {
-
         return (
             <div>
                 <div className="container d-flex p-md-0">
@@ -269,26 +266,6 @@ class ListePatient extends Component {
                 </Modal>
             </div >
         );
-        // }
-        // else {
-        //     return (
-        //         <>
-        //             <div className="container d-flex p-md-0">
-        //                 <ComponentsSidebar />
-        //                 <div className="az-content-body pd-lg-l-40 d-flex flex-column">
-        //                     <div className="az-content-breadcrumb">
-        //                         <span>Patients</span>
-        //                         <span>Liste</span>
-        //                     </div>
-        //                     <h2 className="az-content-title">Listes des patients Globales</h2>
-        //                     <div className="row row-xs wd-xl-80p">
-        //                         <div className="col-sm-6 col-md-3"><Button onClick={() => this.setState({ show: true })} variant="az-primary btn-block">Nouveu patient</Button></div>
-        //                     </div>{/* row */}
-        //                 </div>
-        //             </div>
-        //         </>
-        //     );
-        // }
     }
 }
 export default ListePatient;

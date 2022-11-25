@@ -1,18 +1,17 @@
 import React, { Component, Suspense, lazy } from 'react'
-// import { Switch, Route, Redirect } from 'react-router-dom'
-import { Switch, Route } from 'react-router-dom'
-import { Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
-const Signin = lazy(() => import('./pages/general-pages/Signin'))
 
 const Dashboard = lazy(() => import('./pages/dashboard/Dashboard'))
-const Signup = lazy(() => import('./pages/general-pages/Signup'))
 const Buttons = lazy(() => import('./pages/ui-elements/Buttons'))
 const Dropdowns = lazy(() => import('./pages/ui-elements/Dropdowns'))
 const Icons = lazy(() => import('./pages/ui-elements/Icons'))
 const FormElements = lazy(() => import('./pages/form/FormElements'))
 const ChartJs = lazy(() => import('./pages/charts/ChartJs'))
 const BasicTable = lazy(() => import('./pages/tables/BasicTable'))
+
+// LOGIN
+const Login = lazy(() => import('./pages/generalpage/Login'))
 
 // PERSONNE
 const Persons = lazy(() => import('./pages/personne/Persons'))
@@ -33,18 +32,12 @@ export class AppRoutes extends Component {
       <Suspense fallback=''>
         <Switch>
           <Route exact path="/">
-            <Redirect to="/general-pages/signin"></Redirect>
+            <Redirect to="/login"></Redirect>
           </Route>
-          <Route exact path="/dashboard" component={Dashboard} />
-          <Route exact path="/general-pages/signin" component={Signin} />
-          <Route exact path="/general-pages/signup" component={Signup} />
-          <Route exact path="/ui-elements/buttons" component={Buttons} />
-          <Route exact path="/ui-elements/dropdowns" component={Dropdowns} />
-          <Route exact path="/ui-elements/icons" component={Icons} />
-          <Route exact path="/form/form-elements" component={FormElements} />
-          <Route exact path="/charts/chartjs" component={ChartJs} />
-          <Route exact path="/tables/basic-table" component={BasicTable} />
 
+          {/* LOGIN */}
+          <Route exact path="/login" component={Login} />
+          
           {/* PERSONNE */}
           <Route exact path='/person/create' component={PersonCreate} />
           <Route exact path='/person/update/:id' component={PersonUpdate} />
@@ -58,6 +51,13 @@ export class AppRoutes extends Component {
           {/* ETABLISSEMENT */}
           <Route exact path="/etablissement" component={listeEtablissement} />
 
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/ui-elements/buttons" component={Buttons} />
+          <Route exact path="/ui-elements/dropdowns" component={Dropdowns} />
+          <Route exact path="/ui-elements/icons" component={Icons} />
+          <Route exact path="/form/form-elements" component={FormElements} />
+          <Route exact path="/charts/chartjs" component={ChartJs} />
+          <Route exact path="/tables/basic-table" component={BasicTable} />
 
         </Switch>
       </Suspense>

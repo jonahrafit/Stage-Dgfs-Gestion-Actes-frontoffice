@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MenuFichePatient from './MenuFichePatient';
 import { Link } from 'react-router-dom';
 import { Line } from 'react-chartjs-2';
 import { patient_url_api, etablissement_parametre_url_api, date_now, patient_parametre_url_api } from '../../service/apiService';
-import { Component } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 
@@ -87,7 +86,7 @@ class FichePatient extends Component {
         // izay misy de ajoutena ao am insetr_parametre
         // ajouter avec boucle fotsiny
         this.state.parametres.forEach(param => {
-            var nom_input = param.nomParametre.replace(" ", "_").toLowerCase();
+            let nom_input = param.nomParametre.replace(" ", "_").toLowerCase();
             const object = {
                 id_patient_dossier: this.state.patient.id_patient_dossier,
                 date_parametre: e.target['insert_date_parametre'].value,
@@ -128,6 +127,45 @@ class FichePatient extends Component {
         })
         this.setState({ show_parameter_formulary: false })
     }
+
+    lineChartData = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+            data: [12, 15, 18, 40, 35, 38, 32, 20, 25, 15, 25, 30],
+            borderColor: '#f10075',
+            borderWidth: 1,
+            fill: false
+        }, {
+            data: [10, 20, 25, 55, 50, 45, 35, 30, 45, 35, 55, 40],
+            borderColor: '#007bff',
+            borderWidth: 1,
+            fill: false
+        }]
+    };
+    lineChartOptions = {
+        maintainAspectRatio: false,
+        legend: {
+            display: false,
+            labels: {
+                display: false
+            }
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    fontSize: 10,
+                    max: 80
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true,
+                    fontSize: 11
+                }
+            }]
+        }
+    };
 
     render() {
         const p = this.state.patient;
@@ -196,6 +234,13 @@ class FichePatient extends Component {
                                     </div>{/* table-responsive */}
                                 </div>{/* card */}
                             </div>{/* col-lg */}
+                            <div className="col-sm-8 col-md-6">
+                                <div className="az-content-label mg-b-5">Line Chart</div>
+                                <p className="mg-b-20">Below is the basic line chart example.</p>
+                                <div className="chartjs-wrapper-demo">
+                                    <Line data={this.lineChartData} options={this.lineChartOptions} />
+                                </div>
+                            </div>{/* col-6 */}
                         </div>{/* row */}
                     </div>
                 </div>

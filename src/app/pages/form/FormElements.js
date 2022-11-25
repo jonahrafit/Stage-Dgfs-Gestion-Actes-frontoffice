@@ -399,8 +399,8 @@ class CreditCardMask extends Component {
     }
     
     onChange = (event) => {
-      var value = event.target.value;
-      var newState = {
+      let value = event.target.value;
+      let newState = {
         mask: '9999-9999-9999-9999',
         value: value,
       };

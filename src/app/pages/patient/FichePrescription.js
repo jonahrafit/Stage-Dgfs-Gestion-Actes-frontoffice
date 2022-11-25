@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import MenuFichePatient from './MenuFichePatient';
-import { Modal, Table, Form } from 'react-bootstrap';
+import { Modal, Table, Form, Button } from 'react-bootstrap';
 import Select from 'react-select';
-import { Button } from 'react-bootstrap';
 import { date_now } from '../../service/apiService';
 
 class FichePrescription extends Component {
@@ -10,7 +9,7 @@ class FichePrescription extends Component {
         super();
         this.state = {
             show_prescription_formulary: false,
-            perscription: {
+            prescription: {
                 medicament: '',
                 datedebut: date_now,
                 voie_adminnistration: '',
@@ -21,7 +20,7 @@ class FichePrescription extends Component {
     }
 
     handleChangePrescription(event) {
-        const prescription_state = this.state.perscription
+        const prescription_state = this.state.prescription
         prescription_state[event.target.name] = event.target.value
         this.setState({ prescription : prescription_state});
     }
