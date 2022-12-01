@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 export class Login extends Component {
   constructor(props) {
@@ -34,13 +35,20 @@ export class Login extends Component {
               <form onSubmit={this.formSubmit}>
                 <div className="form-group">
                   <label>Nom d'utilisateur</label>
-                  <input type="text" className="form-control" placeholder="Enter your email" defaultValue="demo@bootstrapdash.com" />
+                  <input type="text" className="form-control" name="login" placeholder="Enter your email" 
+                    value={this.state.login} onChange={this.handleChange} />
                 </div>{/* form-group */}
                 <div className="form-group">
                   <label>Mot de passe</label>
-                  <input type="password" className="form-control" placeholder="Enter your password" defaultValue="thisisademo" />
+                  <input type="password" className="form-control" name="motdepasse" placeholder="Enter your password"
+                    value={this.state.motdepasse} onChange={this.handleChange} />
                 </div>{/* form-group */}
-                <Link to="/dashboard" className="btn btn-az-primary btn-block">Connexion</Link>
+                <Link to="/dashboard">
+                  <Button className="btn btn-az-primary btn-block" 
+                  disabled={this.state.login.length === 0 || this.state.motdepasse.length === 0} >
+                    Connexion
+                  </Button>
+                </Link>
               </form>
             </div>{/* az-signin-header */}
             <div className="az-signin-footer">

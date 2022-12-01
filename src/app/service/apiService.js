@@ -12,6 +12,9 @@ export const patient_url_api = url_api + 'patient/';
 export const personne_patient_url_api = url_api + 'patient/nouveau/';
 export const patient_parametre_url_api = url_api + 'patient/parametre/';
 
-export const session_id_etab = 1;
+export const maladie_url_api = url_api +'maladie/';
 
+export const utilisateur_url_api = url_api+'utilisateur/';
+
+export const session_id_etab = 1;
 export const date_now = moment().toISOString().slice(0, 16);

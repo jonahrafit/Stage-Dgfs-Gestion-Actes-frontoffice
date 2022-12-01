@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Button , Form, Modal } from 'react-bootstrap';
-
-import ComponentsSidebar from '../../components/shared/ComponentsSidebar';
+import { Modal, Button, Col, Form, InputGroup } from "react-bootstrap";
+import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { etablissement_patient_url_api, etablissement_service_url_api, personne_patient_url_api, session_id_etab, date_now } from '../../service/apiService';
 import Swal from 'sweetalert2';
@@ -14,6 +13,8 @@ class ListePatient extends Component {
             Persons: [],
             Services: [],
             show_patient_formulary: false,
+            page: 1,
+            size: 3,
             personne: {
                 insert_nom: '',
                 insert_prenom: '',
@@ -107,12 +108,12 @@ class ListePatient extends Component {
     }
 
     componentDidMount() {
-        fetch(etablissement_patient_url_api)
+        fetch(etablissement_patient_url_api + this.state.page + '/' + this.state.size)
             .then((res) => res.json())
             .then(result => {
                 console.log(result);
                 this.setState({
-                    Persons: result
+                    Persons: result.content
                 });
                 console.log(this.state.Persons);
             });
@@ -130,19 +131,79 @@ class ListePatient extends Component {
         return (
             <div>
                 <div className="container d-flex p-md-0">
-                    <ComponentsSidebar />
                     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
-
                         <div className="az-content-breadcrumb">
                             <span>Patients</span>
                         </div>
-                        <h2 className="az-content-title">Listes des patients Globales</h2>
-                        <div className="row row-xs wd-xl-80p">
-                            <div className="col-sm-6 col-md-3"><Button onClick={() => this.setState({ show_patient_formulary: true })} variant="az-primary btn-block">Nouveu patient</Button></div>
-                        </div>{/* row */}
+                        <div className="az-dashboard-one-title">
+                            <div>
+                                <h2 className="az-dashboard-title">Liste des patients</h2>
+                                <p className="az-dashboard-text"><i>Aujourd'hui , on compte (10) patients </i></p>
+                            </div>
+                            <div className="az-content-header-right">
+                                <Button onClick={() => this.setState({ show_patient_formulary: true })} variant="success btn-rounded btn-with-icon btn-block">
+                                    <i className="far fa-check-circle"></i> Nouveu patient
+                                </Button>
+                            </div>
+                        </div>{/* az-dashboard-one-title */}
+                        <Form.Group className="full-width">
+                            <Form.Row>
+                                <Col sm={2} md={2} lg={2}>
+                                    <Form.Group className="">
+                                        <Form.Label>Min</Form.Label>
+                                        <Form.Control
+                                            placeholder="0"
+                                            aria-label="min range"
+                                            name="min_range"
+                                            required
+                                            ref="min_range">
 
-                        <hr className="mg-y-20" />
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={2} md={2} lg={2}>
+                                    <Form.Group className="">
+                                        <Form.Label>Max</Form.Label>
+                                        <Form.Control
+                                            placeholder="0"
+                                            aria-label="max range"
+                                            name="max_range"
+                                            required
+                                            ref="max_range">
 
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={12} md={3} lg={3}>
+                                    <Form.Group className="">
+                                        <Form.Label>Metric</Form.Label>
+                                        <Select
+                                            name="tiered_metric"
+                                            onChange={(e) => this.handleMetricChange(e)}
+                                            options={this.state.metricList}></Select>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={12} md={3} lg={3}>
+                                    <Form.Label>Amount</Form.Label>
+                                    <InputGroup className="mmb-3 fw">
+                                        <Form.Control
+                                            placeholder="0.00"
+                                            aria-label="tiered amount"
+                                            aria-describedby="tiered-amt-addon2"
+                                            name="tiered_amount"
+                                            pattern="^\d*\.\d{1,18}$"
+                                            required
+                                            ref="tiered_amt"
+
+                                        />
+                                    </InputGroup>
+                                </Col>
+                                <Col sm={12} md={2} lg={2}>
+                                    <Form.Label>_</Form.Label>
+                                    <Button>Filtrer</Button>
+                                </Col>
+                            </Form.Row>
+                        </Form.Group>
                         <div className="table table-bordered">
                             <table cellPadding="0" cellSpacing="0">
                                 <thead>
@@ -182,11 +243,14 @@ class ListePatient extends Component {
                                 </tbody>
                             </table>
                         </div>
-                    </div>
+                        <hr className="mg-y-30" />
+                    </div>{/* bd */}
                 </div>
 
+
                 {/* MODAL FORMULAIRE NOUVEAU PATIENT */}
-                <Modal show={this.state.show_patient_formulary} onHide={() => this.setState({ show_patient_formulary: false })}>
+                < Modal show={this.state.show_patient_formulary} onHide={() => this.setState({ show_patient_formulary: false })
+                }>
                     <form onSubmit={this.handleSubmit_patient_formulary}>
                         <Modal.Header closeButton>
                             <Modal.Title>
@@ -263,7 +327,7 @@ class ListePatient extends Component {
                             <Button type="submit" variant="primary">Inserer</Button>
                         </Modal.Footer>
                     </form>
-                </Modal>
+                </Modal >
             </div >
         );
     }

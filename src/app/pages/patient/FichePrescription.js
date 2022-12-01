@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MenuFichePatient from './MenuFichePatient';
 import { Modal, Table, Form, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import { date_now } from '../../service/apiService';
@@ -34,7 +33,6 @@ class FichePrescription extends Component {
         return (
             <div>
                 <div className="container d-flex p-md-0" >
-                    <MenuFichePatient />
                     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
                         <div className="az-content-breadcrumb">
                             <span>Patient  </span>

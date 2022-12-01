@@ -10,16 +10,16 @@ class App extends Component {
   componentDidMount() {
     this.onRouteChanged();
   }
-  render () {
-    let headerComponent = !this.state.isFullPageLayout ? <Header/> : '';
-    let footerComponent = !this.state.isFullPageLayout ? <Footer/> : '';
+  render() {
+    let headerComponent = !this.state.isFullPageLayout ? <Header /> : '';
+    let footerComponent = !this.state.isFullPageLayout ? <Footer /> : '';
     return (
       <div>
-        {  headerComponent }
+        {headerComponent}
         <div className="az-content-wrapper">
-          <AppRoutes/>
+          <AppRoutes />
         </div>
-        { footerComponent }
+        {footerComponent}
       </div>
     );
   }

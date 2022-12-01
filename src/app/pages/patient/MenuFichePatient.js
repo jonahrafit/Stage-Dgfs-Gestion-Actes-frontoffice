@@ -20,7 +20,6 @@ export class MenuFichePatient extends Component {
               <Link to="/charts/chartjs" className={this.isPathActive('/charts/chartjs') ? "nav-link active" : "nav-link"}>Consultation actuelle</Link>
               <Link to="/charts/chartjs" className={this.isPathActive('/charts/chartjs') ? "nav-link active" : "nav-link"}>Historique de consultation</Link>
             </nav>
-
             <label>Antécédents médicaux</label>
             <nav className="nav flex-column">
               <Link to="/tables/basic-table" className={this.isPathActive('/tables/basic-table') ? "nav-link active" : "nav-link"}>Paramètre journalières</Link>
