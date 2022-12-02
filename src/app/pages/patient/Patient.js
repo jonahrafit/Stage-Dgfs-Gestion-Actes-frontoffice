@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { Information } from '../generalpage/Function';
 import { patient_url_api, etablissement_parametre_url_api, date_now, patient_parametre_url_api } from '../../service/apiService';
-import { Form, Modal, Button, ProgressBar } from 'react-bootstrap';
+import { Form, Modal, Button, ProgressBar, Tabs, Tab } from 'react-bootstrap';
 import Swal from 'sweetalert2';
 import { Line } from 'react-chartjs-2';
 import moment from 'moment';
+import Parametre from './Parametre';
 
 export default class Patient extends Component {
 
@@ -43,9 +44,6 @@ export default class Patient extends Component {
     handleSubmit_parameter_formulary(e) {
         e.preventDefault();
         let insert_parametre = [];
-        // test sod tsy tao anaty formulaire le parametre
-        // izay misy de ajoutena ao am insetr_parametre
-        // ajouter avec boucle fotsiny
         this.state.parametres.forEach(param => {
             let nom_input = param.nomParametre.replace(" ", "_").toLowerCase();
             const object = {
@@ -86,7 +84,8 @@ export default class Patient extends Component {
                 })
             });
         })
-        this.setState({ show_parameter_formulary: false })
+        this.setState({ show_parameter_formulary: false });
+        this.getParameterChartData(this.state.id, this.state.nombre_jour_stat);
     }
 
     getPatient(id) {
@@ -139,6 +138,19 @@ export default class Patient extends Component {
                             <span><Link to="/patient">Patient </Link> </span>
                             <span>{p.numero_dossier}</span>
                         </div>
+                        <div className="az-dashboard-one-title">
+                            <div>
+                                <h2 className="az-dashboard-title">{p.nom + '  ' + p.prenom}</h2>
+                                <p className="az-dashboard-text"><i>né(e) le , {p.date_naissance}</i></p>
+                            </div>
+                            <div className="az-content-header-right">
+                                <Link to={'/patient/' + p.id + '/sortie'}>
+                                    <Button variant="success btn-rounded btn-with-icon btn-block">
+                                        <i className="far fa-logout"></i> Fin de traitement
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>{/* az-dashboard-one-title */}
                         <div className="row row-sm mg-b-20">
                             <div className="col-lg-12 mg-b-10">
                                 <div className="card">
@@ -175,6 +187,19 @@ export default class Patient extends Component {
                                         </div>{/* col */}
                                     </div>{/* card-body */}
                                 </div>{/* card-dashboard-four */}
+                            </div>{/* col */}
+                            <div className="col-lg-12 mg-b-10">
+                                <Tabs
+                                    defaultActiveKey="parametre"
+                                    id="noanim-tab-example"
+                                    className="mb-1">
+                                    <Tab eventKey="parametre" title="Paramètre">
+                                        <Parametre/>
+                                    </Tab>
+                                    <Tab eventKey="histoire" title="Histoire de la maladie">+ Histoire de la maladie </Tab><br />
+                                    <Tab eventKey="Biometrie" title="Biometrie">+ Biomètrie </Tab><br />
+                                    <Tab eventKey="hypothese" title="hypothese diagnostic">+ Paramètre vitaux </Tab><br />
+                                </Tabs>
                             </div>{/* col */}
                             <div className="col-lg-12 mg-b-10">
                                 <div className="card">

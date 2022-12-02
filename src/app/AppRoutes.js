@@ -22,6 +22,7 @@ const PersonUpdate = lazy(() => import('./pages/personne/PersonUpdate'))
 const listePatient = lazy(() => import('./pages/patient/ListePatient'))
 const FichePatient = lazy(() => import('./pages/patient/Patient'))
 const FichePrescription = lazy(() => import('./pages/patient/FichePrescription'))
+const SortiePatient = lazy(() => import('./pages/patient/SortiePatient'))
 
 // ETABLISSEMENT
 const listeEtablissement = lazy(() => import('./pages/etablissement/Etablissement'))
@@ -53,6 +54,7 @@ export class AppRoutes extends Component {
           <Route exact path="/patient" component={listePatient} />
           <Route exact path="/patient/:id" component={FichePatient} />
           <Route exact path="/patient/:id/prescription" component={FichePrescription} />
+          <Route exact path="/patient/:id/sortie" component={SortiePatient} />
 
           {/* ETABLISSEMENT */}
           <Route exact path="/etablissement" component={listeEtablissement} />

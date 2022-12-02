@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Nav, Navbar, Dropdown } from "react-bootstrap";
+import Datetime from "../../pages/generalpage/Datetime";
+import Clock from "../../pages/generalpage/Clock";
 
 export class Header extends Component {
   closeMenu(e) {
@@ -23,8 +25,8 @@ export class Header extends Component {
     return (
       <div>
         <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
-          <Navbar.Brand href="/">
-            <span></span> DGFS
+          <Navbar.Brand>
+            <Datetime />
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
@@ -139,7 +141,7 @@ export class Header extends Component {
                         </Nav.Item>
                       </div>
                       <div>
-                      <Nav.Item>
+                        <Nav.Item>
                           <span>Forms</span>
                           <Nav.Link href="/form/form-elements"
                             className={
@@ -153,7 +155,7 @@ export class Header extends Component {
                         </Nav.Item>
                       </div>
                       <div>
-                      <Nav.Item>
+                        <Nav.Item>
                           <span>Charts</span>
                           <Nav.Link href="/charts/chartjs"
                             className={
@@ -164,10 +166,10 @@ export class Header extends Component {
                           >
                             ChartJS
                           </Nav.Link>
-              </Nav.Item>
+                        </Nav.Item>
                       </div>
                       <div>
-              <Nav.Item>
+                        <Nav.Item>
                           <span>Tables</span>
                           <Nav.Link href="/tables/basic-table"
                             className={
@@ -178,7 +180,7 @@ export class Header extends Component {
                           >
                             Basic Tables
                           </Nav.Link>
-              </Nav.Item>
+                        </Nav.Item>
                       </div>
                     </div>
                   </Dropdown.Menu>

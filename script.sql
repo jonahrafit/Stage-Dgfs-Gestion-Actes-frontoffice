@@ -64,7 +64,7 @@ select
     left(md5(random()::text), 5) as adresse,
     concat('03',(2+random()+1)::int,' ',(10 + random()*88+1)::int,' ',(100 +random()*898+1)::int,' '
 		   ,' ',(10 + (random()*88+1))::int) as contact,
-    date(concat(2018+(random()*3+1)::int,'-',(random()*11+1)::int,'-',(random()*27+1)::int)) as date_admission,
+    date(concat(2018+(random()*3+1)::int,'-',(random()*11+1)::int,'-',(random()*27+1)::int,' ',(random()*22+1)::int,':',(random()*55+1)::int,':',(random()*55+1)::int)) as date_admission,
     case when ((random() * 10)::int)<5 then 'Urgence'
         else 'Consultation externe'
         end as motif ,
@@ -72,12 +72,18 @@ select
     1 as id_etablissement,
     (3 +random()*290+1)::int as id_personne,
     1 as type_transport
-from generate_series(1, 500);
+from generate_series(1, 20);
 
 insert into parametre_dossier(date_parametre, valeur , id_parametre , id_patient_dossier)
 select 
     date(concat(2022,'-',11,'-',(20 + random()*9+1)::int)) as date_parametre ,
     (50 + random()*10)::int as valeur,
     (random()*2+1)::int as id_parametre,
-    240 as id_patient_dossier
+    502 as id_patient_dossier
 from generate_series(0,50);
+
+insert into utilisateur(password, username , id_personne, id_role) values("$2a$12$nOZ3fbCJuOycchtKPMY/A..rwSW6lyLW9yKwu0SAOvgbSbUpTGxde","test",2,2);
+
+select * from parametre_dossier;
+// export const date_now = moment().toISOString().slice(0, 16);
+
