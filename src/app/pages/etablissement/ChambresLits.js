@@ -1,8 +1,29 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { Button } from "react-bootstrap";
+import { Pie } from 'react-chartjs-2';
 
 export default class ChambresLits extends Component {
+
+  doughnutPieData = {
+    labels: ['Occupé', 'Libre' ],
+    datasets: [{
+      data: [30, 65],
+      backgroundColor: ['#560bd0', '#007bff']
+    }]
+  };
+
+  doughnutPieOptions = {
+    maintainAspectRatio: false,
+    responsive: true,
+    legend: {
+      display: false,
+    },
+    animation: {
+      animateScale: true,
+      animateRotate: true
+    }
+  };
 
   render() {
     return (
@@ -57,6 +78,9 @@ export default class ChambresLits extends Component {
             <Link to="/etablissement/lits">
               <Button variant="info btn-rounded btn-block">Voir liste lits</Button>
             </Link>
+            <div className="chartjs-wrapper-demo">
+              <Pie data={this.doughnutPieData} options={this.doughnutPieOptions} />
+            </div>
           </div>{/* col */}
         </div >
       </div >

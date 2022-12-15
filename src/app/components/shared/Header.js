@@ -2,9 +2,10 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Nav, Navbar, Dropdown } from "react-bootstrap";
 import Datetime from "../../pages/generalpage/Datetime";
-import Clock from "../../pages/generalpage/Clock";
 
 export class Header extends Component {
+  
+
   closeMenu(e) {
     e.target.closest(".dropdown").classList.remove("show");
     e.target.closest(".dropdown .dropdown-menu").classList.remove("show");
@@ -30,6 +31,7 @@ export class Header extends Component {
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
+            
               <Nav.Item className={
                 this.isPathActive("/dashboard")
                   ? "nav-item active"
@@ -225,6 +227,7 @@ export class Header extends Component {
             </Dropdown.Menu>
           </Dropdown>
         </Navbar>
+       
       </div >
     );
   }

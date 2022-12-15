@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Table, Badge, Button, Col, Form, InputGroup } from "react-bootstrap";
 import { utilisateur_url_api } from '../../service/apiService';
 import Select from 'react-select';
+import { Link } from 'react-router-dom';
 
 export default class Lits extends Component {
     constructor(props) {
@@ -29,72 +30,71 @@ export default class Lits extends Component {
                 <div className="container d-flex p-md-0">
                     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
                         <div className="az-content-breadcrumb">
-                            <span>Components</span>
-                            <span>UI Elements</span>
-                            <span>Buttons</span>
+                            <span><Link to="/etablissement">Etablissement</Link></span>
+                            <span>Etats de lit</span>
                         </div>
                         <div className="az-content-label mg-b-5">Etats de lits </div>
+                        <Form.Group className="full-width">
+                            <Form.Row>
+                                <Col sm={12} md={2} lg={2}>
+                                    <Form.Group className="">
+                                        <Form.Label>Min</Form.Label>
+                                        <Form.Control
+                                            placeholder="0"
+                                            aria-label="min range"
+                                            name="min_range"
+                                            required
+                                            ref="min_range">
+
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={12} md={2} lg={2}>
+                                    <Form.Group className="">
+                                        <Form.Label>Max</Form.Label>
+                                        <Form.Control
+                                            placeholder="0"
+                                            aria-label="max range"
+                                            name="max_range"
+                                            required
+                                            ref="max_range">
+
+                                        </Form.Control>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={12} md={3} lg={3}>
+                                    <Form.Group className="">
+                                        <Form.Label>Metric</Form.Label>
+                                        <Select
+                                            name="tiered_metric"
+                                            onChange={(e) => this.handleMetricChange(e)}
+                                            options={this.state.metricList}></Select>
+                                    </Form.Group>
+                                </Col>
+                                <Col sm={12} md={3} lg={3}>
+                                    <Form.Label>Amount</Form.Label>
+                                    <InputGroup className="mmb-3 fw">
+                                        <Form.Control
+                                            placeholder="0.00"
+                                            aria-label="tiered amount"
+                                            aria-describedby="tiered-amt-addon2"
+                                            name="tiered_amount"
+                                            pattern="^\d*\.\d{1,18}$"
+                                            required
+                                            ref="tiered_amt"
+
+                                        />
+                                    </InputGroup>
+                                </Col>
+                                <Col sm={12} md={2} lg={2}>
+                                    <Form.Label>_</Form.Label>
+                                    <Button>Filtrer</Button>
+                                </Col>
+                            </Form.Row>
+                        </Form.Group>
+                        <i className="mg-b-20">On compte 15/90 libre(s)</i>
                         <div className="table-responsive">
-                            <i className="mg-b-20">On compte 15/90 libre(s)</i>
-                            <Form.Group className="full-width">
-                                <Form.Row>
-                                    <Col sm={12} md={2} lg={2}>
-                                        <Form.Group className="">
-                                            <Form.Label>Min</Form.Label>
-                                            <Form.Control
-                                                placeholder="0"
-                                                aria-label="min range"
-                                                name="min_range"
-                                                required
-                                                ref="min_range">
-
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col sm={12} md={2} lg={2}>
-                                        <Form.Group className="">
-                                            <Form.Label>Max</Form.Label>
-                                            <Form.Control
-                                                placeholder="0"
-                                                aria-label="max range"
-                                                name="max_range"
-                                                required
-                                                ref="max_range">
-
-                                            </Form.Control>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col sm={12} md={3} lg={3}>
-                                        <Form.Group className="">
-                                            <Form.Label>Metric</Form.Label>
-                                            <Select
-                                                name="tiered_metric"
-                                                onChange={(e) => this.handleMetricChange(e)}
-                                                options={this.state.metricList}></Select>
-                                        </Form.Group>
-                                    </Col>
-                                    <Col sm={12} md={3} lg={3}>
-                                        <Form.Label>Amount</Form.Label>
-                                        <InputGroup className="mmb-3 fw">
-                                            <Form.Control
-                                                placeholder="0.00"
-                                                aria-label="tiered amount"
-                                                aria-describedby="tiered-amt-addon2"
-                                                name="tiered_amount"
-                                                pattern="^\d*\.\d{1,18}$"
-                                                required
-                                                ref="tiered_amt"
-
-                                            />
-                                        </InputGroup>
-                                    </Col>
-                                    <Col sm={12} md={2} lg={2}>
-                                        <Form.Label>_</Form.Label>
-                                        <Button>Filtrer</Button>
-                                    </Col>
-                                </Form.Row>
-                            </Form.Group>
-                            <Table striped className="mg-b-0">
+                            <Table striped>
                                 <thead>
                                     <tr>
                                         <th>Batiment</th>

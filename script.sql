@@ -1,4 +1,4 @@
--- Active: 1667960805673@@127.0.0.1@5432@test_db_spring
+-- Active: 1667960805673@@127.0.0.1@5432
 create or replace view jdernier as
 select (now() - (interval '1' day * generate_series(0,5)))::date as d;
 select j.d , (select avg(p.valeur) from parametre_dossier p 
@@ -84,6 +84,24 @@ from generate_series(0,50);
 
 insert into utilisateur(password, username , id_personne, id_role) values("$2a$12$nOZ3fbCJuOycchtKPMY/A..rwSW6lyLW9yKwu0SAOvgbSbUpTGxde","test",2,2);
 
-select * from parametre_dossier;
-// export const date_now = moment().toISOString().slice(0, 16);
 
+select coalesce(total,0) 
+from stat_jour 
+    where y=date_part('year',now())
+        and m=date_part('month',now())
+        and d=date_part('day',now()) and id_etablissement = 1;
+select count(id) as total
+from v_patient_list 
+where 
+    date_part('year' ,date_admission) = date_part('year' , now()) and 
+    date_part('month' ,date_admission) = date_part('month' , now()) and
+    date_part('day' ,date_admission) = date_part('day' , now())
+    and id_etablissement =1;
+
+// export const date_now = moment().toISOString().slice(0, 16);
+select count(id) as total
+from v_patient_list 
+where date_part('year' ,date_admission) = date_part('year' , now()) and     date_part('month' ,date_admission) = date_part('month' , now()) and id_etablissement =1;
+
+select * from parametre_dossier where id_patient_dossier=56
+ORDER BY date_parametre DESC;

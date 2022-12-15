@@ -19,10 +19,11 @@ const PersonCreate = lazy(() => import('./pages/personne/PersonCreate'))
 const PersonUpdate = lazy(() => import('./pages/personne/PersonUpdate'))
 
 // PATIENT
-const listePatient = lazy(() => import('./pages/patient/ListePatient'))
-const FichePatient = lazy(() => import('./pages/patient/Patient'))
-const FichePrescription = lazy(() => import('./pages/patient/FichePrescription'))
-const SortiePatient = lazy(() => import('./pages/patient/SortiePatient'))
+const PatientListe = lazy(() => import('./pages/patient/PatientListe'))
+const PatientFiche = lazy(() => import('./pages/patient/PatientFiche'))
+const PatientParametre = lazy(() => import('./pages/patient/PatientParametre'))
+const PatientPrescription = lazy(() => import('./pages/patient/PatientPrescription'))
+const PatientSortie = lazy(() => import('./pages/patient/PatientSortie'))
 
 // ETABLISSEMENT
 const listeEtablissement = lazy(() => import('./pages/etablissement/Etablissement'))
@@ -44,17 +45,18 @@ export class AppRoutes extends Component {
 
           {/* LOGIN */}
           <Route exact path="/login" component={Login} />
-          
+
           {/* PERSONNE */}
+          <Route exact path='/persons/' component={Persons} />
           <Route exact path='/person/create' component={PersonCreate} />
           <Route exact path='/person/update/:id' component={PersonUpdate} />
-          <Route exact path='/persons/' component={Persons} />
 
           {/* PATIENT */}
-          <Route exact path="/patient" component={listePatient} />
-          <Route exact path="/patient/:id" component={FichePatient} />
-          <Route exact path="/patient/:id/prescription" component={FichePrescription} />
-          <Route exact path="/patient/:id/sortie" component={SortiePatient} />
+          <Route exact path="/patient" component={PatientListe} />
+          <Route exact path="/patient/:id" component={PatientFiche} />
+          <Route exact path="/patient/:id/parametre" component={PatientParametre} />
+          <Route exact path="/patient/:id/prescription" component={PatientPrescription} />
+          <Route exact path="/patient/:id/sortie" component={PatientSortie} />
 
           {/* ETABLISSEMENT */}
           <Route exact path="/etablissement" component={listeEtablissement} />

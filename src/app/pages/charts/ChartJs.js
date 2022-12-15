@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ComponentsSidebar from '../../components/shared/ComponentsSidebar';
-import {Line, Bar, HorizontalBar, Doughnut, Pie } from 'react-chartjs-2';
+import { Line, Bar, HorizontalBar, Doughnut, Pie } from 'react-chartjs-2';
+import { Pagination } from 'react-bootstrap';
 
 export class ChartJs extends Component {
 
@@ -21,14 +22,14 @@ export class ChartJs extends Component {
     responsive: true,
     legend: {
       display: false,
-        labels: {
-          display: false
-        }
+      labels: {
+        display: false
+      }
     },
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 10,
           max: 80
         }
@@ -36,7 +37,7 @@ export class ChartJs extends Component {
       xAxes: [{
         barPercentage: 0.6,
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11
         }
       }]
@@ -48,8 +49,8 @@ export class ChartJs extends Component {
     datasets: [{
       label: '# of Votes',
       data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: ['#560bd0', '#007bff','#00cccc','#cbe0e3','#74de00','#f10075'],
-      borderColor: ['#560bd0', '#007bff','#00cccc','#cbe0e3','#74de00','#f10075'],
+      backgroundColor: ['#560bd0', '#007bff', '#00cccc', '#cbe0e3', '#74de00', '#f10075'],
+      borderColor: ['#560bd0', '#007bff', '#00cccc', '#cbe0e3', '#74de00', '#f10075'],
       borderWidth: 1,
       fill: false
     }]
@@ -59,20 +60,20 @@ export class ChartJs extends Component {
     maintainAspectRatio: false,
     legend: {
       display: false,
-        labels: {
-          display: false
-        }
+      labels: {
+        display: false
+      }
     },
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 10,
         }
       }],
       xAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11,
           max: 80
         }
@@ -85,7 +86,7 @@ export class ChartJs extends Component {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
     datasets: [{
       data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: ['#560bd0', '#007bff','#74de00','#f10075','#74de00','#f10075']
+      backgroundColor: ['#560bd0', '#007bff', '#74de00', '#f10075', '#74de00', '#f10075']
     }, {
       data: [22, 30, 25, 30, 20, 40],
       backgroundColor: '#cad0e8'
@@ -96,20 +97,20 @@ export class ChartJs extends Component {
     maintainAspectRatio: false,
     legend: {
       display: false,
-        labels: {
-          display: false
-        }
+      labels: {
+        display: false
+      }
     },
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11,
         }
       }],
       xAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11,
           max: 80
         }
@@ -124,12 +125,12 @@ export class ChartJs extends Component {
       backgroundColor: '#314d83',
       borderWidth: 1,
       fill: true
-    },{
+    }, {
       data: [10, 24, 20, 25, 35, 50],
       backgroundColor: '#007bff',
       borderWidth: 1,
       fill: true
-    },{
+    }, {
       data: [20, 30, 28, 33, 45, 65],
       backgroundColor: '#cad0e8',
       borderWidth: 1,
@@ -141,15 +142,15 @@ export class ChartJs extends Component {
     maintainAspectRatio: false,
     legend: {
       display: false,
-        labels: {
-          display: false
-        }
+      labels: {
+        display: false
+      }
     },
     scales: {
       yAxes: [{
         stacked: true,
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11
         }
       }],
@@ -170,12 +171,12 @@ export class ChartJs extends Component {
       backgroundColor: '#314d83',
       borderWidth: 1,
       fill: true
-    },{
+    }, {
       data: [10, 24, 20, 25, 35, 50],
       backgroundColor: '#007bff',
       borderWidth: 1,
       fill: true
-    },{
+    }, {
       data: [20, 30, 28, 33, 45, 65],
       backgroundColor: '#cad0e8',
       borderWidth: 1,
@@ -187,15 +188,15 @@ export class ChartJs extends Component {
     maintainAspectRatio: false,
     legend: {
       display: false,
-        labels: {
-          display: false
-        }
+      labels: {
+        display: false
+      }
     },
     scales: {
       yAxes: [{
         stacked: true,
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 10,
           max: 80
         }
@@ -203,7 +204,7 @@ export class ChartJs extends Component {
       xAxes: [{
         stacked: true,
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11
         }
       }]
@@ -217,7 +218,7 @@ export class ChartJs extends Component {
       borderColor: '#f10075',
       borderWidth: 1,
       fill: false
-    },{
+    }, {
       data: [10, 20, 25, 55, 50, 45, 35, 30, 45, 35, 55, 40],
       borderColor: '#007bff',
       borderWidth: 1,
@@ -229,21 +230,21 @@ export class ChartJs extends Component {
     maintainAspectRatio: false,
     legend: {
       display: false,
-        labels: {
-          display: false
-        }
+      labels: {
+        display: false
+      }
     },
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 10,
           max: 80
         }
       }],
       xAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11
         }
       }]
@@ -257,7 +258,7 @@ export class ChartJs extends Component {
       borderColor: '#f10075',
       borderWidth: 1,
       backgroundColor: 'rgba(241,0,117,.3)'
-    },{
+    }, {
       data: [10, 20, 25, 55, 50, 45, 35, 37, 45, 35, 55, 40],
       borderColor: '#007bff',
       borderWidth: 1,
@@ -269,21 +270,21 @@ export class ChartJs extends Component {
     maintainAspectRatio: false,
     legend: {
       display: false,
-        labels: {
-          display: false
-        }
+      labels: {
+        display: false
+      }
     },
     scales: {
       yAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 10,
           max: 80
         }
       }],
       xAxes: [{
         ticks: {
-          beginAtZero:true,
+          beginAtZero: true,
           fontSize: 11
         }
       }]
@@ -293,8 +294,8 @@ export class ChartJs extends Component {
   doughnutPieData = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
     datasets: [{
-      data: [20,20,30,5,25],
-      backgroundColor: ['#560bd0', '#007bff','#00cccc','#cbe0e3','#74de00']
+      data: [20, 20, 30, 5, 25],
+      backgroundColor: ['#560bd0', '#007bff', '#00cccc', '#cbe0e3', '#74de00']
     }]
   };
 
@@ -314,7 +315,7 @@ export class ChartJs extends Component {
     return (
       <div>
         <div className="container d-flex p-md-0">
-          <ComponentsSidebar/>
+          <ComponentsSidebar />
           <div className="az-content-body pd-lg-l-40 d-flex flex-column">
             <div className="az-content-breadcrumb">
               <span>Components</span>
@@ -334,7 +335,7 @@ export class ChartJs extends Component {
               </div>{/* col-6 */}
             </div>{/* row */}
 
-            <hr className="mg-y-30"/>
+            <hr className="mg-y-30" />
 
             <div className="az-content-label mg-b-5">Horizontal Bar Chart</div>
             <p className="mg-b-20">Below is the horizontal bar chart example.</p>
@@ -352,7 +353,7 @@ export class ChartJs extends Component {
               </div>{/* col-6 */}
             </div>{/* row */}
 
-            <hr className="mg-y-30"/>
+            <hr className="mg-y-30" />
 
             <div className="az-content-label mg-b-5">Stacked Bar Chart</div>
             <p className="mg-b-20">Below are the vertical and horizontal bar chart example.</p>
@@ -370,7 +371,7 @@ export class ChartJs extends Component {
               </div>{/* col-6 */}
             </div>{/* row */}
 
-            <hr className="mg-y-30"/>
+            <hr className="mg-y-30" />
 
             <div className="row row-sm">
               <div className="col-sm-8 col-md-6">
@@ -389,7 +390,7 @@ export class ChartJs extends Component {
               </div>{/* col-6 */}
             </div>{/* row */}
 
-            <hr className="mg-y-30"/>
+            <hr className="mg-y-30" />
 
             <div className="az-content-label mg-b-5">Pie &amp; Donut Chart</div>
             <p className="mg-b-20">Below are an example of data in a pie and donut chart.</p>
@@ -402,11 +403,32 @@ export class ChartJs extends Component {
                 <Pie data={this.doughnutPieData} options={this.doughnutPieOptions} />
               </div>
             </div>
+            <hr className="mg-y-30" />
 
+            <div className="az-content-label mg-b-5">Pagination</div>
+            <p className="mg-b-20">Pagination template.</p>
+
+            <div className="d-md-flex">
+              <Pagination>
+                <Pagination.First />
+                <Pagination.Prev />
+                <Pagination.Item>{1}</Pagination.Item>
+                <Pagination.Ellipsis />
+                <Pagination.Item>{10}</Pagination.Item>
+                <Pagination.Item>{11}</Pagination.Item>
+                <Pagination.Item active>{12}</Pagination.Item>
+                <Pagination.Item>{13}</Pagination.Item>
+                <Pagination.Item disabled>{14}</Pagination.Item>
+                <Pagination.Ellipsis />
+                <Pagination.Item>{20}</Pagination.Item>
+                <Pagination.Next />
+                <Pagination.Last />
+              </Pagination>
+            </div>
             <div className="ht-40"></div>
 
           </div>{/* az-content-body */}
-        </div>{/* container */}  
+        </div>{/* container */}
       </div>
     )
   }
