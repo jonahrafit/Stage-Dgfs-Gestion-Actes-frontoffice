@@ -13,9 +13,7 @@ export const etablissement_simplestat_url_api = url_api + 'etablissement/patient
 // PATIENT
 export const patient_url_api = url_api + 'patient/';
 export const personne_patient_url_api = url_api + 'patient/nouveau/';
-export const patient_parametre_url_api = url_api + 'patient/parametre/';
 export const patient_dernierparametre_url_api = url_api + 'patient/parametre/last/';
-export const patient_prescription_url_api = url_api + 'patient/prescription/';
 
 // MALADIE
 export const maladie_url_api = url_api + 'maladie/';
@@ -25,8 +23,16 @@ export const maladie_search_url_api = url_api + 'maladie/all';
 export const utilisateur_url_api = url_api + 'utilisateur/';
 export const utilisateur_login_url_api = url_api + 'utilisateur/login';
 
+// Medicament
+export const medicament_url_api = url_api + 'medicament'
+
+// PRESCRIPTION
+export const prescription_url_api = url_api + 'prescription';
+
+
 export const session_id_etab = 1;
 
+export const color_of_background = ['#ba68c8', '#6bf178', '#bdddc8', '#6bfff8'];
 const dateTime = new Date();
 const dateTimeFormat = (dateTime) => {
     const localDateTime = dateTime.toLocaleString('en-GB')

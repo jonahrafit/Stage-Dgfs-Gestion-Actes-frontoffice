@@ -24,15 +24,20 @@ const PatientFiche = lazy(() => import('./pages/patient/PatientFiche'))
 const PatientParametre = lazy(() => import('./pages/patient/PatientParametre'))
 const PatientPrescription = lazy(() => import('./pages/patient/PatientPrescription'))
 const PatientSortie = lazy(() => import('./pages/patient/PatientSortie'))
+const PatientChambreLits = lazy(() => import('./pages/patient/PatientChambreLits'))
 
 // ETABLISSEMENT
 const listeEtablissement = lazy(() => import('./pages/etablissement/Etablissement'))
-const listeLits = lazy(() => import('./pages/etablissement/Lits'))
+const listeBatiments = lazy(() => import('./pages/etablissement/Batiments'))
+const listePersonnels = lazy(() => import('./pages/etablissement/Personnels'))
+const listeServices = lazy(() => import('./pages/etablissement/Service'))
 
 // MALADIE
 const Maladie = lazy(() => import('./pages/patient/Maladie'))
 
 const Search = lazy(() => import('./pages/etablissement/Search'))
+
+const PageNotFound = lazy(() => import('./pages/generalpage/PageNotFound'))
 
 export class AppRoutes extends Component {
   render() {
@@ -57,10 +62,13 @@ export class AppRoutes extends Component {
           <Route exact path="/patient/:id/parametre" component={PatientParametre} />
           <Route exact path="/patient/:id/prescription" component={PatientPrescription} />
           <Route exact path="/patient/:id/sortie" component={PatientSortie} />
+          <Route exact path="/patient/:id/chambreslits" component={PatientChambreLits} />
 
           {/* ETABLISSEMENT */}
           <Route exact path="/etablissement" component={listeEtablissement} />
-          <Route exact path="/etablissement/lits" component={listeLits} />
+          <Route exact path="/etablissement/:id/batiments" component={listeBatiments} />
+          <Route exact path="/etablissement/:id/personnels" component={listePersonnels} />
+          <Route exact path="/etablissement/:id/services" component={listeServices} />
 
           {/* MALADIE */}
           <Route exact path="/maladie" component={Maladie} />
@@ -74,6 +82,8 @@ export class AppRoutes extends Component {
           <Route exact path="/form/form-elements" component={FormElements} />
           <Route exact path="/charts/chartjs" component={ChartJs} />
           <Route exact path="/tables/basic-table" component={BasicTable} />
+
+          <Route exact path="/*" component={PageNotFound} />
 
         </Switch>
       </Suspense>

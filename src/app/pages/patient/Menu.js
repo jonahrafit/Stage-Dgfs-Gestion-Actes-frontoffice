@@ -14,6 +14,10 @@ export default class Menu extends Component {
                     Paramètres medicaux
                 </Link>
                 &nbsp;&nbsp;&nbsp;
+                <Link to={'/patient/' + patient.id_patient_dossier + '/chambreslits'}>
+                    Chambres et lits
+                </Link>
+                &nbsp;&nbsp;&nbsp;
                 <Link to={'/patient/' + patient.id_patient_dossier + '/prescription'}>
                     Prescription médicale
                 </Link>

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { patient_url_api, maladie_url_api } from '../../service/apiService';
+import { maladie_url_api } from '../../service/apiService';
 import { Link } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
-import Select from 'react-select';
-import Creatable from 'react-select/creatable'
+import authHeader from '../../service/auth-header'; 
+// import Select from 'react-select';
+import axios from 'axios';
+import PatientService from '../../service/PatientService';
 
 export default class PatientSortie extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -15,18 +15,21 @@ export default class PatientSortie extends Component {
             maladies: [],
             bilan_sortie: {
                 maladie: ''
-            }
+            },
+            selectOptions : [],
+            code: "",
+            libelle: ''
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.getPatient = this.getPatient.bind(this);
     }
 
     handleChange(event) {
-        const state_bilan_sortie = this.state.bilan_sortie;
-        state_bilan_sortie[event.target.name] = event.target.value;
-        this.setState(state_bilan_sortie);
-        this.getMaladie(this.state.bilan_sortie.maladie);
+        this.setState({code:event.value, libelle:event.label})
+        // const state_bilan_sortie = this.state.bilan_sortie;
+        // state_bilan_sortie[event.target.name] = event.target.value;
+        // this.setState(state_bilan_sortie);
+        // this.getMaladie(this.state.bilan_sortie.maladie);
     }
 
     handleSubmit(event) {
@@ -34,52 +37,49 @@ export default class PatientSortie extends Component {
     }
 
     componentDidMount() {
-        this.getPatient(this.state.id_patient_dossier);
+        PatientService.getPatient(this.props.match.params.id).then(response => { this.setState({ patient: response }); })
         this.getListeMaladie();
     }
 
-    getListeMaladie() {
-        fetch(maladie_url_api)
-            .then(response => response.json())
-            .then((res) => {
-                this.setState({
-                    maladies: res
-                });
-                console.log(res)
-            })
-            .catch((e) => {
-                console.error(`An error occurred: ${e}`)
-            });
-    }
+    // getListeMaladie() {
+    //     fetch(maladie_url_api, { headers: authHeader() })
+    //         .then(response => response.json())
+    //         .then((res) => {
+    //             this.setState({
+    //                 maladies: res
+    //             });
+    //             console.log(res)
+    //         })
+    //         .catch((e) => {
+    //             console.error(`An error occurred: ${e}`)
+    //         });
+    // }
 
     getMaladie(search) {
         fetch(maladie_url_api, {
+            headers : authHeader(),
             method: 'POST',
             body: JSON.stringify({
                 search: search,
-            }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
+            })
         }).then((res) => {
             this.setState({ maladies: res })
         })
     }
 
-    getPatient(id) {
-        fetch(patient_url_api + id)
-            .then((res) => res.json())
-            .then(response => {
-                this.setState({
-                    patient: response
-                });
-                console.log("patient", response);
-                return response;
-            })
-    }
+    async getListeMaladie(){
+        const res = await axios.get(maladie_url_api, { headers: authHeader() })
+        const data = res.data
+        console.log(data);
+        const options = data.map(d => ({
+          "value" : d.code,
+          "label" : d.libelle
+        }))
+        this.setState({selectOptions: options})
+      }
+      
     render() {
         const patient = this.state.patient;
-        
         return (
             <div>
                 <div className="container d-flex p-md-0" >
@@ -102,7 +102,9 @@ export default class PatientSortie extends Component {
                                             <li className="list-group-item" key={mal.code} title={mal.code}>{mal.libelle}</li>
                                         )}
                                 </ul> */}
-                                <Creatable isClearable options={this.state.maladies} />
+                                {/* <Creatable isClearable options={this.state.maladies} /> */}
+                                {/* <Select options={this.state.selectOptions} onChange={this.handleChange.bind(this)} />
+    <p>You have selected <strong>{this.state.name}</strong> whose id is <strong>{this.state.id}</strong></p> */}
                             </div>
                         </div>
                     </div>

@@ -4,12 +4,17 @@ import './App.scss';
 import AppRoutes from './AppRoutes';
 import Footer from './components/shared/Footer';
 import Header from './components/shared/Header';
+import authHeader from './service/auth-header';
+// import jwtDecode from "jwt-decode";
 
 class App extends Component {
   state = {}
+  
   componentDidMount() {
     this.onRouteChanged();
+    console.log("AUTH HEADER", authHeader());
   }
+
   render() {
     let headerComponent = !this.state.isFullPageLayout ? <Header /> : '';
     let footerComponent = !this.state.isFullPageLayout ? <Footer /> : '';

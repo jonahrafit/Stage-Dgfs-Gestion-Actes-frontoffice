@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { Nav, Navbar, Dropdown } from "react-bootstrap";
 import Datetime from "../../pages/generalpage/Datetime";
+import * as Icon from "react-icons/bs";
+import jwtDecode from "jwt-decode";
 
 export class Header extends Component {
-  
-
   closeMenu(e) {
     e.target.closest(".dropdown").classList.remove("show");
     e.target.closest(".dropdown .dropdown-menu").classList.remove("show");
@@ -22,7 +22,16 @@ export class Header extends Component {
     }
   }
 
+  logout() {
+    localStorage.removeItem("token");
+    window.location.href = '/login';
+  }
+
   render() {
+    let user_details = '';
+    if (localStorage.getItem("token")) {
+      user_details = jwtDecode(localStorage.getItem("token"));
+    }
     return (
       <div>
         <Navbar bg="dark" variant="dark" expand="lg" sticky="top">
@@ -31,7 +40,6 @@ export class Header extends Component {
           </Navbar.Brand>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-            
               <Nav.Item className={
                 this.isPathActive("/dashboard")
                   ? "nav-item active"
@@ -57,7 +65,7 @@ export class Header extends Component {
               }
               >
                 <Nav.Link href="/etablissement">
-                  <span className="medical-icon-medical-records" aria-hidden="true"> </span>  Gestion des Etablissements
+                  <Icon.BsHouse /> Gestion des Etablissements
                 </Nav.Link>
               </Nav.Item>
 
@@ -200,8 +208,7 @@ export class Header extends Component {
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <div className="az-dropdown-header d-sm-none">
-                <a
-                  href="#/"
+                <a href="#/"
                   onClick={event => this.closeMenu(event)}
                   className="az-header-arrow"
                 >
@@ -215,19 +222,19 @@ export class Header extends Component {
                     alt=""
                   ></img>
                 </div>
-                <h6>Aziana Pechon</h6>
-                <span>Premium Member</span>
+                <h6>{user_details.sub ? user_details.sub : ''}</h6>
+                <span>{user_details.roles ? user_details.roles.map((usr) => usr + ' ') : ''}</span>
               </div>
               <a href="#/" className="dropdown-item">
                 <i className="typcn typcn-cog-outline"></i> Mon profile
               </a>
-              <Nav.Link href="/login" className="dropdown-item">
+              <Nav.Link onClick={this.logout} className="dropdown-item">
                 <i className="typcn typcn-power-outline"></i> Deconnexion
               </Nav.Link>
             </Dropdown.Menu>
           </Dropdown>
         </Navbar>
-       
+
       </div >
     );
   }

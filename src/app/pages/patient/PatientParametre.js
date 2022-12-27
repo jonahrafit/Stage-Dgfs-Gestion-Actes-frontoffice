@@ -1,38 +1,39 @@
 import React, { Component } from 'react'
-import { patient_url_api, etablissement_parametre_url_api, patient_parametre_url_api } from '../../service/apiService';
+import { patient_url_api, etablissement_parametre_url_api } from '../../service/apiService';
 import { Link } from 'react-router-dom';
 import Menu from './Menu';
 import moment from 'moment';
 import { Modal, Form, Button, Tabs, Tab, Table, ProgressBar } from 'react-bootstrap';
 import { Line } from 'react-chartjs-2';
 import Swal from 'sweetalert2';
+import authHeader from '../../service/auth-header';
+import PatientService from '../../service/PatientService';
 
 export default class PatientParametre extends Component {
     constructor(props) {
         super();
         this.state = {
             id_patient_dossier: props.match.params.id,
-            nombre_jour_stat: 10,
+            nombre_jour_stat: 5,
             patient: [],
             parametres: [],
             parametres_dossier: [],
             modal_data: [],
         }
-        this.getPatient = this.getPatient.bind(this);
         this.getAllParametreDossier = this.getAllParametreDossier.bind(this);
         this.getParameterChartData = this.getParameterChartData.bind(this);
         this.handleSubmit_parameter_formulary = this.handleSubmit_parameter_formulary.bind(this);
     }
 
     componentDidMount() {
-        this.getPatient(this.state.id_patient_dossier);
+        PatientService.getPatient(this.props.match.params.id).then(response => { this.setState({ patient: response }); })
         this.getAllParametre();
         this.getParameterChartData(this.state.id_patient_dossier, this.state.nombre_jour_stat);
         this.getAllParametreDossier(this.state.id_patient_dossier);
     }
 
     getAllParametre() {
-        fetch(etablissement_parametre_url_api)
+        fetch(etablissement_parametre_url_api, { headers: authHeader() })
             .then((res) => res.json())
             .then(response => {
                 this.setState({
@@ -48,20 +49,8 @@ export default class PatientParametre extends Component {
         })
     }
 
-    getPatient(id) {
-        fetch(patient_url_api + id)
-            .then((res) => res.json())
-            .then(response => {
-                this.setState({
-                    patient: response
-                });
-                console.log("patient", response);
-                return response;
-            })
-    }
-
     getAllParametreDossier(id_patient_dossier) {
-        fetch(patient_parametre_url_api + id_patient_dossier + '/tous')
+        fetch(patient_url_api + id_patient_dossier + '/parametre/tous', { headers: authHeader() })
             .then((res) => res.json())
             .then(response => {
                 this.setState({
@@ -71,7 +60,7 @@ export default class PatientParametre extends Component {
     }
 
     getParameterChartData(id_patient_dossier, nombre_jour) {
-        fetch(patient_parametre_url_api + id_patient_dossier + "/nbj-" + nombre_jour)
+        fetch(patient_url_api + id_patient_dossier + "/parametre/nbj-" + nombre_jour, { headers: authHeader() })
             .then((result) => result.json())
             .then(res => {
                 console.log("parametre data chart ", res)
@@ -100,19 +89,18 @@ export default class PatientParametre extends Component {
     handleSubmit_parameter_formulary(event) {
         event.preventDefault();
         const idpd = event.target.insert_id_patient_dossier.value;
-        fetch(patient_parametre_url_api, {
+        const idp = event.target.insert_id_parametre.value;
+        const v = event.target.insert_parametre.value;
+        fetch(patient_url_api + idpd + '/parametre/', {
             method: 'POST',
             body: JSON.stringify({
                 id_patient_dossier: idpd,
-                id_parametre: event.target.insert_id_parametre.value,
+                id_parametre: idp,
                 date_parametre: new Date(),
-                valeur: event.target.insert_parametre.value,
+                valeur: v,
             }),
-            headers: {
-                "Content-type": "application/json; charset=UTF-8"
-            }
+            headers: authHeader(),
         }).then((res) => {
-            console.log(res);
             Swal.fire({
                 type: 'success',
                 toast: true,

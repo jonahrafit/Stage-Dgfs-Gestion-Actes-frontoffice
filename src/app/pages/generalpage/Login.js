@@ -1,15 +1,19 @@
 import React, { Component } from 'react'
 import { Button } from 'react-bootstrap'
+import { url } from '../../service/apiService';
+// import axios from 'axios';
+// import AuthService from './auth.service';
 
 export class Login extends Component {
   constructor(props) {
     super();
     this.state = {
       login: {
-        username: '',
-        password: ''
+        username: 'jonah@gmail.com',
+        password: '1234'
       },
       message: '',
+      loading: false
     }
     this.handleChange = this.handleChange.bind(this);
     this.formSubmit = this.formSubmit.bind(this);
@@ -23,28 +27,27 @@ export class Login extends Component {
 
   formSubmit(event) {
     event.preventDefault();
-    // alert(this.state.login.username + '  ' + this.state.login.password)
-    window.location.href = '/dashboard';
-    // fetch(url + "login", {
-    //   method: 'POST',
-    //   crossorigin: true,
-    //   withCredentials: true,
-    //   mode: 'no-cors',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: this.state.login,
-    // })
-    //   .then((response) => {
-    //     localStorage.setItem("user", JSON.stringify(response));
-    //   })
-    //   .catch(error => {
-    //     console.log("ERROR: ", error);
-    //     this.setState({ message: error.toString() });
-    //   });
-  }
+    this.setState({ loading: true });
+    var data = new FormData();
+    data.append("username", this.state.login.username);
+    data.append("password", this.state.login.password);
+    fetch(url + "login", {
+      method: 'POST',
+      body: data
+    })
+      .then((responseF) => responseF.json())
+      .then((response) => {
+        localStorage.setItem("token", JSON.stringify(response));
+        window.location.href = '/dashboard';
+      })
+      .catch((exception) => {
+        this.setState({
+          message: exception.toString(),
+          loading: false
+        })
+      });
 
+  }
 
   render() {
     return (
@@ -73,7 +76,7 @@ export class Login extends Component {
                 </div>{/* form-group */}
                 <div className="form-group">
                   <Button type="submit" className="btn btn-az-primary btn-block" disabled={this.state.login.username.length === 0 || this.state.login.password.length === 0}>
-                    <span>Connexion</span>
+                    <span> {this.state.loading ? <div className="spinner-border" role="status"></div> : 'Connexion'}</span>
                   </Button>
                 </div>
               </form>

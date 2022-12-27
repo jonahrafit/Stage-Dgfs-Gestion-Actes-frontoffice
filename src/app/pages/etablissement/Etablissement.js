@@ -1,28 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
-import { maladie_url_api } from '../../service/apiService';
-import Personnels from './Personnels';
-import ChambresLits from './ChambresLits';
+import { Link } from 'react-router-dom';
+import { session_id_etab } from '../../service/apiService';
 
 class Etablissement extends Component {
-    constructor(props) {
-        super();
-        this.state = {
-            Maladies: [],
-            show_personnels: false,
-        }
-    }
-
-    componentDidMount() {
-        fetch(maladie_url_api)
-            .then((res) => res.json())
-            .then(result => {
-                console.log(result);
-                this.setState({
-                    Maladies: result
-                });
-            });
-    }
 
     render() {
         return (
@@ -30,21 +11,34 @@ class Etablissement extends Component {
                 <div className="container d-flex p-md-0">
                     <div className="az-content-body pd-lg-l-40 d-flex flex-column">
                         <div className="az-content-breadcrumb">
-                            <span>Etablissent</span>
+                            <span><Link to="/etablissement">Etablissement</Link></span>
+                            <span><Link to="/etablissement">{session_id_etab}</Link></span>
+                            <span>Liste des personnels</span>
                         </div>
                         <h2>Gestion d'etablissement</h2>
                         <div className="row row-xs wd-xl-80p">
-                            <div className="col-sm-12 col-md-6 mg-t-10 mg-sm-t-0"><Button onClick={() => this.setState({ show_personnels: false })} variant="primary btn-with-icon btn-block"><i className="typcn typcn-mail"></i> Gestion des chambres et lits</Button></div>
+                            <div className="col-sm-12 col-md-4 mg-t-10 mg-sm-t-0">
+                                <Link to={"/etablissement/" + session_id_etab + "/batiments"}>
+                                    <Button variant="primary btn-with-icon btn-block">
+                                        <i className="typcn typcn-mail"></i> Gestion des chambres et lits</Button>
+                                </Link>
+                            </div>
                             <br />
-                            <div className="col-sm-12 col-md-6"><Button onClick={() => this.setState({ show_personnels: true })} variant="indigo btn-with-icon btn-block"><i className="typcn typcn-folder"></i> Gestion des personnels</Button></div>
+                            <div className="col-sm-12 col-md-4">
+                                <Link to={"/etablissement/" + session_id_etab + "/services"}>
+                                    <Button variant="indigo btn-with-icon btn-block">
+                                        <i className="typcn typcn-folder"></i> Gestion des services</Button>
+                                </Link>
+                            </div>
+                            <br />
+                            <div className="col-sm-12 col-md-4">
+                                <Link to={"/etablissement/" + session_id_etab + "/personnels"}>
+                                    <Button variant="indigo btn-with-icon btn-block">
+                                        <i className="typcn typcn-folder"></i> Gestion des personnels</Button>
+                                </Link>
+                            </div>
                         </div>{/* row */}
                         <hr />
-                        {!this.state.show_personnels &&
-                            <ChambresLits />
-                        }
-                        {this.state.show_personnels &&
-                            <Personnels />
-                        }
                     </div>
                 </div>
             </div>

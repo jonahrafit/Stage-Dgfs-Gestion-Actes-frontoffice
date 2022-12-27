@@ -98,10 +98,5 @@ where
     date_part('day' ,date_admission) = date_part('day' , now())
     and id_etablissement =1;
 
-// export const date_now = moment().toISOString().slice(0, 16);
-select count(id) as total
-from v_patient_list 
-where date_part('year' ,date_admission) = date_part('year' , now()) and     date_part('month' ,date_admission) = date_part('month' , now()) and id_etablissement =1;
 
-select * from parametre_dossier where id_patient_dossier=56
-ORDER BY date_parametre DESC;
+select * from patient_dossier;

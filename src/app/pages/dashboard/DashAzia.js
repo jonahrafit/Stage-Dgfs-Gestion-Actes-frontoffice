@@ -2,67 +2,8 @@
 import React, { Component } from 'react'
 import { Line, Bar, Pie } from 'react-chartjs-2';
 import * as Icon from 'react-icons/bs';
-import { etablissement_url_api, session_id_etab } from '../../service/apiService';
-import authHeader from '../../service/auth-header';
-import StatParServiceTrafficDetail from './StatParServiceTrafficDetail';
-import { color_of_background } from '../../service/apiService';
 
-export class Dashboard extends Component {
-  constructor(props) {
-    super();
-    this.state = {
-      statparservice: [],
-      doughnutPieData: { datasets: [], labels: [] },
-    }
-  }
-
-  componentDidMount() {
-    this.getStatParService();
-  }
-
-  getStatParService() {
-    fetch(etablissement_url_api + session_id_etab + '/service/stat', { headers: authHeader() })
-      .then((res) => res.json())
-      .then(result => {
-        let labels = [];
-        let data = [];
-        for (const element of Array.from(result)) {
-          let temp = element;
-          labels.push(temp.nom);
-          data.push(temp.value);
-        }
-        this.setState({
-          statparservice: result,
-          doughnutPieData: {
-            labels: labels,
-            datasets: [{
-              data: data,
-              backgroundColor: color_of_background,
-            }]
-          }
-        });
-        console.log("STAT par service:", this.state.statparservice);
-      })
-      .catch(error => {
-        console.error('Error during service worker registration:', error);
-        this.setState({ loading: true });
-      });
-  }
-
-
-  doughnutPieOptions = {
-    cutoutPercentage: 50,
-    maintainAspectRatio: false,
-    responsive: true,
-    legend: {
-      display: false,
-    },
-    animation: {
-      animateScale: true,
-      animateRotate: true
-    }
-  };
-  // ))))))))))))))))))))))))))))))))
+export class DashAzia extends Component {
   websiteAudienceChartData = {
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31', '32', '33', '34', '35', '36', '37', '38', '39', '40', '41', '42', '43', '44', '45', '46', '47', '48', '49',
       '50', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '61', '62', '63', '64', '65', '66', '67', '68', '69', '70', '71', '72', '73', '74', '75', '76', '77', '78', '79', '80', '81', '82', '83', '84', '85', '86', '87', '88', '89', '90', '91', '92', '93', '94', '95', '96', '97', '98', '99',
@@ -458,11 +399,13 @@ export class Dashboard extends Component {
     }
   };
 
+
   render() {
     return (
       <div>
         <div className="container p-md-0">
           <div className="az-content-body">
+
             <div className="az-dashboard-one-title">
               <div>
                 <h2 className="az-dashboard-title">Bonjour , </h2>
@@ -479,6 +422,12 @@ export class Dashboard extends Component {
                   <div className="media-body">
                     <label>Date fin</label>
                     <h6>Oct 23, 2018</h6>
+                  </div>
+                </div>
+                <div className="media">
+                  <div className="media-body">
+                    <label>Event Category</label>
+                    <h6>All Categories</h6>
                   </div>
                 </div>
                 <a href="#/" className="btn btn-purple">Filtrer</a>
@@ -510,19 +459,59 @@ export class Dashboard extends Component {
                   <div className="card-body row">
                     <div className="col-md-6 d-flex align-items-center">
                       <div className="chart">
-                        <Pie data={this.state.doughnutPieData} options={this.doughnutPieOptions} />
-                      </div>
-                      {/* <div className="chart">
                         <Pie data={this.sessionsChannelChartData} options={this.sessionsChannelChartOptions} />
-                      </div> */}
+                      </div>
                     </div>{/* col */}
                     <div className="col-md-6 col-lg-5 mg-lg-l-auto mg-t-20 mg-md-t-0">
-                      <StatParServiceTrafficDetail data={this.state.statparservice} />
+                      <div className="az-traffic-detail-item">
+                        <div>
+                          <span>Organic Search</span>
+                          <span>1,320 <span>(25%)</span></span>
+                        </div>
+                        <div className="progress">
+                          <div className="progress-bar bg-purple wd-25p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>{/* progress */}
+                      </div>
+                      <div className="az-traffic-detail-item">
+                        <div>
+                          <span>Email</span>
+                          <span>987 <span>(20%)</span></span>
+                        </div>
+                        <div className="progress">
+                          <div className="progress-bar bg-primary wd-20p" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>{/* progress */}
+                      </div>
+                      <div className="az-traffic-detail-item">
+                        <div>
+                          <span>Referral</span>
+                          <span>2,010 <span>(30%)</span></span>
+                        </div>
+                        <div className="progress">
+                          <div className="progress-bar bg-info wd-30p" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>{/* progress */}
+                      </div>
+                      <div className="az-traffic-detail-item">
+                        <div>
+                          <span>Social</span>
+                          <span>654 <span>(15%)</span></span>
+                        </div>
+                        <div className="progress">
+                          <div className="progress-bar bg-teal wd-15p" role="progressbar" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>{/* progress */}
+                      </div>
+                      <div className="az-traffic-detail-item">
+                        <div>
+                          <span>Other</span>
+                          <span>400 <span>(10%)</span></span>
+                        </div>
+                        <div className="progress">
+                          <div className="progress-bar bg-gray-500 wd-10p" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>{/* progress */}
+                      </div>
                     </div>{/* col */}
                   </div>{/* card-body */}
                 </div>{/* card-dashboard-four */}
               </div>{/* col */}
-
               <div className="col-lg-4">
                 <div className="card card-dashboard-pageviews">
                   <div className="card-header">
@@ -808,4 +797,4 @@ export class Dashboard extends Component {
   }
 }
 
-export default Dashboard
+export default DashAzia
